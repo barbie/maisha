@@ -3,7 +3,7 @@ package App::Maisha;
 use strict;
 use warnings;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 #----------------------------------------------------------------------------
 
@@ -143,6 +143,13 @@ For further information regarding the commands and configuration, please see
 the 'maisha' script included with this distribution.
 
 See http://maisha.grango.org
+
+=head1 THANKS TO
+
+My thanks go to the following people for suggestions and help when putting this
+application together.
+
+Dave Cross, Robert Rothenberg and Steffen Müller.
 
 =head1 AUTHOR
 

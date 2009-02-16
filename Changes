@@ -1,6 +1,11 @@
 # Changes log for App::Maisha
 =============================
 
+0.06    16/02/2009
+	- default configuration file name and location changed. Thanks to Rob
+	  Rothenberg for the suggestion.
+	- added dependencies used by maisha script.
+
 0.05    16/02/2009
 	- fixed Test::CPAN::Meta dependency, as spotted by Dave Cross.
 

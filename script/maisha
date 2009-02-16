@@ -6,6 +6,7 @@ use warnings;
 #----------------------------------------------------------------------------
 # Library Modules
 
+use File::HomeDir;
 use FindBin;
 use Getopt::Long;
 use Pod::Usage;
@@ -19,11 +20,12 @@ use App::Maisha;
 {
     my ($config,%options);
 
-    # Default config file is expected to be at the current directory
+    # Default config file is expected to be in the user's home directory
     $config = do {
+        my $home = File::HomeDir->my_home;
         my $file;
         foreach my $suffix qw(ini yml yaml) {
-            my $test = "config.$suffix";
+            my $test = "$home/.maisha.$suffix";
             if (-f $test) {
                 $file = $test;
                 last;
@@ -90,22 +92,10 @@ maisha - Micro-blogging From Your Command Line
 =head1 SYNOPSIS
 
    maisha
-   maisha -c config.ini
+   maisha -c mymaisha.ini
    maisha -v
    maisha -u
    maisha -h
-
-   # In a config file, specify the following:
-   # config.ini
-   [CONFIG]
-
-   [Identica]
-   username: your@email.address
-   password: password
-
-   [Twitter]
-   username: your@email.address
-   password: password
 
 =head1 DESCRIPTION
 
@@ -135,6 +125,10 @@ Print out the manual page.
 The configuration file must contain at least one micro-blogging service, with
 your username and password for that service, all other configuration settings 
 are optional.
+
+The configuration file itself can be in in the INI or YAML format, and will 
+default to looking for '.maisha.ini', '.maisha.yml' or '.maisha.yaml' in the 
+user's home directory.
 
 =head2 Application Configuration
 
@@ -239,6 +233,37 @@ Provides help for a specific command, or provides a summary of the commands
 available if requested with no arguments.
 
 =back
+
+=head2 Example Configuration Files
+
+=head3 INI Style Configuration
+
+  [CONFIG]
+  order: asc
+  tag: .
+
+  [Identica]
+  username: yourlogin
+  password: yourpassword
+
+  [Twitter]
+  username: yourlogin
+  password: yourpassword
+
+=head3 YAML Style Configuration
+
+  --- #YAML:1.0
+  CONFIG:
+    order: asc
+    tag: .
+  
+  Twitter:
+    username: yourlogin
+    password: yourpassword
+  
+  Identica:
+    username: yourlogin
+    password: yourpassword
 
 =head1 AUTHOR
 

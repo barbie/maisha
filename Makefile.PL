@@ -9,6 +9,11 @@ WriteMakefile(
         'Net::Twitter'          => '2.06',
         'Term::Shell'           => '0',
 
+        'File::HomeDir'         => '0',     # used by maisha script
+        'FindBin'               => '0',     # used by maisha script
+        'Getopt::Long'          => '0',     # used by maisha script
+        'Pod::Usage'            => '0',     # used by maisha script
+
         'Test::More'            => '0.47',  # testing only
     },
 	NO_META			    => 1,
