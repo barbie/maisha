@@ -1,0 +1,9 @@
+--- #YAML:1.0
+CONFIG:
+  prompt: tweet>
+  order: asc
+  tag: .
+
+Twitter:
+  username: missbarbell
+  password: perrott26;

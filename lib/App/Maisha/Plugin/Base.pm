@@ -1,0 +1,115 @@
+package App::Maisha::Plugin::Base;
+
+use strict;
+use warnings;
+
+my $VERSION = '0.01';
+
+#----------------------------------------------------------------------------
+# Public API
+
+sub new {
+    my $class = shift;
+    my $self = {
+        source      => 'maisha',
+        useragent   => 'Maisha/0.01 (Perl)',
+        clientname  => 'Maisha',
+        clientver   => '0.01',
+        clienturl   => 'http://maisha.grango.org'
+    };
+
+    bless $self, $class;
+    return $self;
+}
+
+sub login { return 0 }
+
+sub api_update {}
+sub api_friends {}
+sub api_friends_timeline {}
+sub api_public_timeline {}
+sub api_followers {}
+
+sub api_replies {}
+sub api_send_message {}
+sub api_direct_messages_to {}
+sub api_direct_messages_from {}
+
+1;
+
+__END__
+
+=head1 NAME
+
+App::Maisha::Plugin::Base - Maisha interface base module
+
+=head1 DESCRIPTION
+
+This module is used as a base for services. Where services do not provide
+functionality, they will use the methods provided here.
+
+=head1 METHODS
+
+=head2 Constructor
+
+=over 4
+
+=item * new
+
+=back
+
+=head2 Process Methods
+
+=over 4
+
+=item * login
+
+Login to the service.
+
+=back
+
+=head2 API Methods
+
+The API methods are used to interface to with the Twitter API.
+
+=over 4
+
+=item * api_friends
+
+=item * api_friends_timeline
+
+=item * api_public_timeline
+
+=item * api_followers
+
+=item * api_update
+
+=item * api_replies
+
+=item * api_send_message
+
+=item * api_direct_messages_to
+
+=item * api_direct_messages_from
+
+=back
+
+=head1 SEE ALSO
+
+For further information regarding the commands and configuration, please see
+the 'maisha' script included with this distribution.
+
+L<App::Maisha> - http://maisha.grango.org
+
+=head1 AUTHOR
+
+  Copyright (c) 2009 Barbie <barbie@cpan.org> Miss Barbell Productions.
+
+=head1 LICENSE
+
+  This program is free software; you can redistribute it and/or modify it
+  under the same terms as Perl itself.
+
+  See http://www.perl.com/perl/misc/Artistic.html
+
+=cut
