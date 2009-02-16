@@ -3,7 +3,7 @@ package App::Maisha::Shell;
 use strict;
 use warnings;
 
-my $VERSION = '0.03';
+my $VERSION = '0.04';
 
 #----------------------------------------------------------------------------
 

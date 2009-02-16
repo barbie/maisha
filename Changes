@@ -1,6 +1,9 @@
 # Changes log for App::Maisha
 =============================
 
+0.04    15/02/2009
+	- added missing README.
+
 0.03    14/02/2009
 	- bugfix: missing prerequisite :(
 
