@@ -1,7 +1,10 @@
 # Changes log for App::Maisha
 =============================
 
-0.02    current
+0.03    14/02/2009
+	- bugfix: missing prerequisite :(
+
+0.02    14/02/2009
 	- bugfix: a follower/friend may not have sent a status update.
 	- minor UI improvement for command ok messages.
 	- added commands 'user' and 'user_timeline'
