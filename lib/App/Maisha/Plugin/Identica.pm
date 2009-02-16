@@ -3,7 +3,7 @@ package App::Maisha::Plugin::Identica;
 use strict;
 use warnings;
 
-my $VERSION = '0.01';
+my $VERSION = '0.02';
 
 #----------------------------------------------------------------------------
 # Library Modules
@@ -43,6 +43,18 @@ sub api_update
 {
     my $self = shift;
     $self->api->update(@_);
+}
+
+sub api_user
+{
+    my $self = shift;
+    $self->api->show_user(@_);
+}
+
+sub api_user_timeline
+{
+    my $self = shift;
+    $self->api->user_timeline(@_);
 }
 
 sub api_friends
@@ -93,6 +105,18 @@ sub api_direct_messages_from
     $self->api->sent_direct_messages();
 }
 
+sub api_follow
+{
+    my $self = shift;
+    $self->api->create_friend(@_);
+}
+
+sub api_unfollow
+{
+    my $self = shift;
+    $self->api->destroy_friend(@_);
+}
+
 1;
 
 __END__
@@ -104,7 +128,7 @@ App::Maisha::Plugin::Identica - Maisha interface to Identi.ca
 =head1 SYNOPSIS
 
    maisha
-   maisha> use Identica <username> <password>
+   maisha> use Identica
    use ok
 
 =head1 DESCRIPTION
@@ -137,6 +161,14 @@ Login to the service.
 The API methods are used to interface to with the Identica API.
 
 =over 4
+
+=item * api_follow
+
+=item * api_unfollow
+
+=item * api_user
+
+=item * api_user_timeline
 
 =item * api_friends
 

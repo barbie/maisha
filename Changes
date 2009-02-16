@@ -1,5 +1,11 @@
 # Changes log for App::Maisha
 =============================
 
+0.02    current
+	- bugfix: a follower/friend may not have sent a status update.
+	- minor UI improvement for command ok messages.
+	- added commands 'user' and 'user_timeline'
+	- added commands 'follow' and 'unfollow'
+
 0.01    13/02/2009
         - Initial release.

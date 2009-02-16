@@ -3,7 +3,7 @@ package App::Maisha::Shell;
 use strict;
 use warnings;
 
-my $VERSION = '0.01';
+my $VERSION = '0.02';
 
 #----------------------------------------------------------------------------
 
@@ -129,7 +129,7 @@ sub run_followers {
 
     if ($ret) {
         foreach my $rec (@$ret) {
-            printf( "[%s] %s\n", $rec->{screen_name}, $rec->{status}{text});
+            printf( "[%s] %s\n", $rec->{screen_name}, ($rec->{status}{text} || ''));
         }
     }
 }
@@ -151,7 +151,7 @@ sub run_friends {
 
     if ($ret) {
         foreach my $friend (@$ret) {
-            printf( "[%s] %s\n", $friend->{screen_name}, $friend->{status}{text});
+            printf( "[%s] %s\n", $friend->{screen_name}, ($friend->{status}{text} || ''));
         }
     }
 }
@@ -159,6 +159,90 @@ sub smry_friends { "display friends' status" }
 sub help_friends {
     <<'END';
 Displays the most recent status messages from each of your friends.
+END
+}
+
+
+#
+# Show User
+#
+
+sub run_user {
+    my ($self,$user) = @_;
+
+    $user =~ s/^\@//    if($user);
+    unless($user) {
+        print "no user specified\n\n";
+        return;
+    }
+
+    my $ref = { id => $user };
+    my $ret = $self->_command('user', $ref);
+
+    print "\n";
+    print "user:        $ret->{screen_name}\n"      if($ret->{screen_name});
+    print "name:        $ret->{name}\n"             if($ret->{name});
+    print "location:    $ret->{location}\n"         if($ret->{location});
+    print "description: $ret->{description}\n"      if($ret->{description});
+    print "url:         $ret->{url}\n"              if($ret->{url});
+    print "friends:     $ret->{friends_count}\n"    if($ret->{friends_count});
+    print "followers:   $ret->{followers_count}\n"  if($ret->{followers_count});
+    print "statuses:    $ret->{statuses_count}\n"   if($ret->{statuses_count});
+    print "status:      $ret->{status}{text}\n"     if($ret->{status}{text});
+
+    #use Data::Dumper;
+    #print Dumper($ret);
+}
+sub smry_user { "display a user profile" }
+sub help_user {
+    <<'END';
+Displays a user profile.
+END
+}
+
+
+#
+# Follow/Unfollow
+#
+
+sub run_follow {
+    my ($self,$user) = @_;
+
+    $user =~ s/^\@//    if($user);
+    unless($user) {
+        print "no user specified\n\n";
+        return;
+    }
+
+    my $ref = { id => $user };
+    my $ret = $self->_command('follow', $ref);
+}
+sub smry_follow { "follow a named user" }
+sub help_follow {
+    <<'END';
+Sends a follow request to the name user. If status updates are not protected
+you can start seeing that user's updates immediately. Otherwise you will have
+to wait until the user accepts your request.
+END
+}
+
+
+sub run_unfollow {
+    my ($self,$user) = @_;
+
+    $user =~ s/^\@//    if($user);
+    unless($user) {
+        print "no user specified\n\n";
+        return;
+    }
+
+    my $ref = { id => $user };
+    my $ret = $self->_command('unfollow', $ref);
+}
+sub smry_unfollow { "unfollow a named user" }
+sub help_unfollow {
+    <<'END';
+Allows you to unfollow a user.
 END
 }
 
@@ -213,6 +297,41 @@ END
 *run_pt = \&run_public_timeline;
 sub smry_pt { "alias to public_timeline" }
 *help_pt = \&help_public_timeline;
+
+
+#
+# User Timeline
+#
+
+sub run_user_timeline {
+    my $self = shift;
+    my $user = shift;
+
+    $user =~ s/^\@//    if($user);
+    unless($user) {
+        print "no user specified\n\n";
+        return;
+    }
+
+    my $ref = { id => $user };
+    my $ret = $self->_command('user_timeline',$ref);
+
+    if ($ret) {
+        my $limit = defined @_ ? shift : $self->limit;
+        $self->_print_messages($limit,'user',$ret);
+    }
+}
+
+sub smry_user_timeline { "display named user statuses as a timeline" }
+sub help_user_timeline {
+    <<'END';
+Displays the most recent status messages for a specified user.
+END
+}
+
+*run_ut = \&run_user_timeline;
+sub smry_ut { "alias to user_timeline" }
+*help_ut = \&help_user_timeline;
 
 
 #
@@ -418,9 +537,9 @@ sub _command {
     my $ret    = $service->$method(@_);
 
     if ($ret) {
-        print "$cmd ok\n\n";
+        print "$cmd ok\n";
     } else {
-        print "Command $cmd failed :(\n\n";
+        print "Command $cmd failed :(\n";
     }
     return $ret;
 }
@@ -437,9 +556,9 @@ sub _commands {
         $class =~ s/^App::Maisha::Plugin:://;
 
         if ($ret) {
-            print "[$class] $cmd ok\n\n";
+            print "[$class] $cmd ok\n";
         } else {
-            print "[$class] Command $cmd failed :(\n\n";
+            print "[$class] Command $cmd failed :(\n";
         }
     }
 
@@ -598,6 +717,59 @@ The followers methods provide the handlers for the 'followers' command.
 =item * run_followers
 =item * help_followers
 =item * smry_followers
+
+=back
+
+=head2 Follow Methods
+
+The follow methods provide the handlers for the 'follow' command.
+
+=over 4
+
+=item * run_follow
+=item * help_follow
+=item * smry_follow
+
+=back
+
+=head2 Unfollow Methods
+
+The unfollow methods provide the handlers for the 'unfollow' command.
+
+=over 4
+
+=item * run_unfollow
+=item * help_unfollow
+=item * smry_unfollow
+
+=back
+
+=head2 User Methods
+
+The user methods provide the handlers display the profile of a named user.
+
+=over 4
+
+=item * run_user
+=item * help_user
+=item * smry_user
+
+=back
+
+=head2 User Timeline Methods
+
+The user timeline methods provide the handlers for the 'user_timeline'
+command. Note that the 'ut' is an alias to 'user_timeline'.
+
+=over 4
+
+=item * run_user_timeline
+=item * help_user_timeline
+=item * smry_user_timeline
+
+=item * run_ut
+=item * help_ut
+=item * smry_ut
 
 =back
 

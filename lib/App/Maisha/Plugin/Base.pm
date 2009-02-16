@@ -3,7 +3,7 @@ package App::Maisha::Plugin::Base;
 use strict;
 use warnings;
 
-my $VERSION = '0.01';
+my $VERSION = '0.02';
 
 #----------------------------------------------------------------------------
 # Public API
@@ -26,6 +26,8 @@ sub login { return 0 }
 
 sub api_update {}
 sub api_friends {}
+sub api_user {}
+sub api_user_timeline {}
 sub api_friends_timeline {}
 sub api_public_timeline {}
 sub api_followers {}
@@ -34,6 +36,9 @@ sub api_replies {}
 sub api_send_message {}
 sub api_direct_messages_to {}
 sub api_direct_messages_from {}
+
+sub api_follow {}
+sub api_unfollow {}
 
 1;
 
@@ -73,6 +78,14 @@ Login to the service.
 The API methods are used to interface to with the Twitter API.
 
 =over 4
+
+=item * api_follow
+
+=item * api_unfollow
+
+=item * api_user
+
+=item * api_user_timeline
 
 =item * api_friends
 
