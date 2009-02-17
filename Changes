@@ -1,6 +1,10 @@
 # Changes log for App-Maisha
 ============================
 
+0.09	17/02/2009
+	- added README to MANIFEST.
+	- document changes.
+
 0.08	17/02/2009
 	- added about and version methods to the shell.
 	- removed follow/unfollow from Identica plugin, as they are not 

@@ -3,7 +3,7 @@ package App::Maisha::Plugin::Twitter;
 use strict;
 use warnings;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 #----------------------------------------------------------------------------
 # Library Modules

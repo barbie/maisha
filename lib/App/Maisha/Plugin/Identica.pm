@@ -3,7 +3,7 @@ package App::Maisha::Plugin::Identica;
 use strict;
 use warnings;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 #----------------------------------------------------------------------------
 # Library Modules
@@ -149,10 +149,6 @@ Login to the service.
 The API methods are used to interface to with the Identica API.
 
 =over 4
-
-=item * api_follow
-
-=item * api_unfollow
 
 =item * api_user
 

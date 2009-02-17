@@ -10,9 +10,10 @@ lib/App/Maisha/Plugin/Base.pm
 lib/App/Maisha/Plugin/Identica.pm
 lib/App/Maisha/Plugin/Twitter.pm
 Makefile.PL
-MANIFEST			This list of files
+MANIFEST
 META.yml
 script/maisha
+README
 t/01load.t
 t/20attributes.t
 t/21help_methods.t
