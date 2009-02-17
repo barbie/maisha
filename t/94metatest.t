@@ -8,4 +8,3 @@ eval "use Test::CPAN::Meta 0.12";
 plan skip_all => "Test::CPAN::Meta 0.12 required for testing META.yml" if $@;
 meta_yaml_ok();
 
-

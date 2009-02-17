@@ -3,7 +3,7 @@ package App::Maisha::Plugin::Identica;
 use strict;
 use warnings;
 
-my $VERSION = '0.07';
+our $VERSION = '0.08';
 
 #----------------------------------------------------------------------------
 # Library Modules
@@ -103,18 +103,6 @@ sub api_direct_messages_from
 {
     my $self = shift;
     $self->api->sent_direct_messages();
-}
-
-sub api_follow
-{
-    my $self = shift;
-    $self->api->create_friend(@_);
-}
-
-sub api_unfollow
-{
-    my $self = shift;
-    $self->api->destroy_friend(@_);
 }
 
 1;

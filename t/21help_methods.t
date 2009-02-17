@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 164;
+use Test::More tests => 176;
 use App::Maisha::Shell;
 
 ok( my $obj = App::Maisha::Shell->new(), "got object" );
@@ -39,6 +39,9 @@ for my $k ( qw/
     ut
     follow
     unfollow
+
+    about
+    version
 / ){
   for my $m (qw(smry help)) {
     my $j = "${m}_$k";

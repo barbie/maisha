@@ -6,6 +6,7 @@ WriteMakefile(
         'Class::Accessor::Fast' => '0',
         'Config::Any'           => '0',
         'Module::Pluggable'     => '2.7',
+        'Net::Identica'         => '2.05',
         'Net::Twitter'          => '2.06',
         'Term::Shell'           => '0',
 

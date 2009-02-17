@@ -3,26 +3,22 @@
 use strict;
 use warnings;
 
-use Test::More tests => 29;
+use Test::More tests => (2 + 29);
 use App::Maisha::Shell;
 
 ok( my $obj = App::Maisha::Shell->new(), "got object" );
 isa_ok($obj,'App::Maisha::Shell');
+$obj->networks('');
 
 for my $k ( qw/
-    exit
     followers
     friends
     friends_timeline
     ft
-    help
     pt
     public_timeline
     say
     update
-    quit
-    q
-
     replies
     re
     direct_messages
@@ -30,21 +26,35 @@ for my $k ( qw/
     send_message
     send
     sm
-
-    connect
-    disconnect
-    use
     user
     user_timeline
     ut
     follow
     unfollow
+
+    about
+    version
+
+    help
+    connect
+    disconnect
+    use
+    exit
+    quit
+    q
 / ){
   for my $m (qw(run)) {
     my $j = "${m}_$k";
     my $label = "[$j]";
     SKIP: {
-      ok( $obj->can($j), "$label can" ) or skip "'$j' method missing", 2;
+      ok( $obj->can($j), "$label can" );
+#      or skip "'$j' method missing", 1;
+#      if($k =~ /^(exit|quit|q|connect|disconnect|use|help)$/) {
+#          ok(1);
+#      } else {
+#          eval { $obj->$j() };
+#          is( $@, '' );
+#      }
     }
   };
 }

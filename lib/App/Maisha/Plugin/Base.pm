@@ -3,7 +3,7 @@ package App::Maisha::Plugin::Base;
 use strict;
 use warnings;
 
-my $VERSION = '0.07';
+our $VERSION = '0.08';
 
 #----------------------------------------------------------------------------
 # Public API

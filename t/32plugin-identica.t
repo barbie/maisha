@@ -62,6 +62,18 @@ SKIP: {
 
         user
         user_timeline
+    / ){
+      for my $m (qw(api)) {
+        my $j = "${m}_$k";
+        my $label = "[$j]";
+        SKIP: {
+          ok( $obj->can($j), "$label can" ) or skip "'$j' method missing", 2;
+          isnt($obj->$j(), undef, "$label returns something" );
+        }
+      }
+    }
+
+    for my $k ( qw/
         follow
         unfollow
 
@@ -71,7 +83,7 @@ SKIP: {
         my $label = "[$j]";
         SKIP: {
           ok( $obj->can($j), "$label can" ) or skip "'$j' method missing", 2;
-          isnt($obj->$j(), undef, "$label returns nothing" );
+          is($obj->$j(), undef, "$label returns nothing" );
         }
       }
     }

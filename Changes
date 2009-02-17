@@ -1,7 +1,13 @@
 # Changes log for App-Maisha
 ============================
 
-0.07	current
+0.08	17/02/2009
+	- added about and version methods to the shell.
+	- removed follow/unfollow from Identica plugin, as they are not 
+	  supported.
+	- more tests.
+
+0.07	17/02/2009
 	- various documentation updates.
 	- more tests
 	- provided more example configuration files.

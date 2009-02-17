@@ -3,7 +3,7 @@ package App::Maisha::Shell;
 use strict;
 use warnings;
 
-my $VERSION = '0.07';
+our $VERSION = '0.08';
 
 #----------------------------------------------------------------------------
 
@@ -51,6 +51,10 @@ sub services   { shift->_elem('services',   @_) }
 sub connect {
     my ($self,$plug,$user,$pass) = @_;
 
+    unless($plug) { warn "No plugin supplied\n";   return }
+    unless($user) { warn "No username supplied\n"; return }
+    unless($pass) { warn "No password supplied\n"; return }
+
     $self->_load_plugins    unless(%plugins);
     my $plugin = $self->_get_plugin($plug);
     if(!$plugin) {
@@ -86,6 +90,9 @@ END
 
 sub run_disconnect {
     my ($self,$plug) = @_;
+
+    unless($plug) { warn "No plugin supplied\n";   return }
+
     my $services = $self->services;
     my @new = grep {ref($_) !~ /^App::Maisha::Plugin::$plug$/} @$services;
     $self->services(\@new);
@@ -475,6 +482,54 @@ sub smry_say { "alias to 'update'" }
 
 
 #
+# About
+#
+
+sub smry_about { "brief summary of maisha" }
+sub help_about {
+    <<'END';
+Provides a brief summary about maisha.
+END
+}
+sub run_about {
+    print <<ABOUT;
+
+Maisha is a command line application that can interface with a number of online
+social networking sites. Referred to as micro-blogging, users can post status
+updates to the likes of Twitter and Identi.ca. Maisha provides the abilty to
+follow the status updates of friends and see who is following you, as well as
+allowing you to send updates and send and receive direct messages too.
+
+Maisha means "life" in Swahili, and as the application is not tied to any
+particular online service, it seemed an appropriate choice of name. After all
+you are posting status updates about your life :)
+
+Maisha is written in Perl, and freely available as Open Source under the Perl
+Artistic license. Copyright (c) 2009 Barbie for Grango.org, the Open Source
+development outlet of Miss Barbell Productions. See http://maisha.grango.org.
+
+Version: $VERSION
+
+ABOUT
+}
+
+
+#
+# Version
+#
+
+sub smry_version { "display the current version of maisha" }
+sub help_version {
+    <<'END';
+Displays the current version of maisha.
+END
+}
+sub run_version {
+    print "\nVersion: $VERSION";
+}
+
+
+#
 # Quit/Exit
 #
 
@@ -531,7 +586,10 @@ sub _command {
     my $cmd  = shift;
 
     my $services = $self->services;
+    return  unless(defined $services && @$services);
+
     my $service  = $services->[0];
+    return  unless(defined $service);
 
     my $method = "api_$cmd";
     my $ret    = $service->$method(@_);
@@ -549,7 +607,11 @@ sub _commands {
     my $cmd  = shift;
 
     my $services = $self->services;
+    return  unless(defined $services && @$services);
+
     for my $service (@$services) {
+        next  unless(defined $service);
+
         my $method = "api_$cmd";
         my $ret    = $service->$method(@_);
         my $class  = ref($service);
@@ -584,12 +646,8 @@ sub _load_plugins {
 
 sub _get_plugin {
     my $self  = shift;
-    my $class = shift;
+    my $class = shift or return;
     return $plugins{$class} || undef;
-}
-
-sub _get_plugins {
-    return values %plugins;
 }
 
 1;
@@ -902,6 +960,30 @@ Note that both 'send' and 'sm' are aliases to 'send_message'
 =item * run_sm
 =item * help_sm
 =item * smry_sm
+
+=back
+
+=head2 About Methods
+
+The quit methods provide the handlers for the 'about' command.
+
+=over 4
+
+=item * run_about
+=item * help_about
+=item * smry_about
+
+=back
+
+=head2 Version Methods
+
+The quit methods provide the handlers for the 'version' command.
+
+=over 4
+
+=item * run_version
+=item * help_version
+=item * smry_version
 
 =back
 
