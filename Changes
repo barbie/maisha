@@ -1,5 +1,10 @@
-# Changes log for App::Maisha
-=============================
+# Changes log for App-Maisha
+============================
+
+0.07	current
+	- various documentation updates.
+	- more tests
+	- provided more example configuration files.
 
 0.06    16/02/2009
 	- default configuration file name and location changed. Thanks to Rob

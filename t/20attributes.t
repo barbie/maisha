@@ -9,9 +9,9 @@ use App::Maisha::Shell;
 
 # App::Maisha attributes
 
-ok( my $obj = App::Maisha->new(config => 't/data/config.yml'), "got object" );
+ok( my $obj = App::Maisha->new(config => 'examples/config.pl'), "got object" );
 
-foreach my $k ( qw/
+for my $k ( qw/
 	shell
 	config
 / ){
@@ -30,7 +30,7 @@ foreach my $k ( qw/
 
 ok( $obj = App::Maisha::Shell->new(), "got object" );
 
-foreach my $k ( qw/
+for my $k ( qw/
 	services
 	prompt_str
 	tag_str

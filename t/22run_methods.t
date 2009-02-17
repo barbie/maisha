@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 164;
+use Test::More tests => 29;
 use App::Maisha::Shell;
 
 ok( my $obj = App::Maisha::Shell->new(), "got object" );
@@ -40,13 +40,11 @@ for my $k ( qw/
     follow
     unfollow
 / ){
-  for my $m (qw(smry help)) {
+  for my $m (qw(run)) {
     my $j = "${m}_$k";
     my $label = "[$j]";
     SKIP: {
       ok( $obj->can($j), "$label can" ) or skip "'$j' method missing", 2;
-      isnt( $obj->$j(), undef, "$label returns something" );
-      like( $obj->$j, qr/\w/, "$label returns some text" );
     }
   };
 }

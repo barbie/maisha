@@ -126,9 +126,24 @@ The configuration file must contain at least one micro-blogging service, with
 your username and password for that service, all other configuration settings 
 are optional.
 
-The configuration file itself can be in in the INI or YAML format, and will 
-default to looking for '.maisha.ini', '.maisha.yml' or '.maisha.yaml' in the 
-user's home directory.
+The configuration file itself can be in several different formats, XML, YAML, 
+JSON, Windows INI files and even pure Perl are all supported, provided you have
+the correct distributions to support those file formats. As a guide the 
+following are known to work with this application:
+
+  Config::Tiny    - INI file format
+  JSON            - JSON file format
+  JSON::Syck      - JSON file format
+  XML::Simple     - XML file format
+  YAML            - YAML file format
+  YAML::Syck      - YAML file format
+
+For further options for other file formats see L<Config::Tiny> for more 
+information. See also examples listed further below.
+
+By default the INI and YAML file formats are used, with the application looking
+for a default configuration file in your $HOME directory, named '.maisha.ini', 
+'.maisha.yml' or '.maisha.yaml'.
 
 =head2 Application Configuration
 
@@ -238,6 +253,8 @@ available if requested with no arguments.
 
 =head3 INI Style Configuration
 
+Requires Config::Tiny to be available.
+
   [CONFIG]
   order: asc
   tag: .
@@ -252,6 +269,8 @@ available if requested with no arguments.
 
 =head3 YAML Style Configuration
 
+Requires YAML or YAML::Syck to be available.
+
   --- #YAML:1.0
   CONFIG:
     order: asc
@@ -264,6 +283,16 @@ available if requested with no arguments.
   Identica:
     username: yourlogin
     password: yourpassword
+
+=head3 Perl Style Configuration
+
+No additional dependencies required.
+
+  {
+    CONFIG      => {'order': 'asc','tag': '.'},
+    Twitter     => {'username': 'yourlogin','password': 'yourpassword'},
+    Identica    => {'username': 'yourlogin','password': 'yourpassword'},
+  }
 
 =head1 AUTHOR
 

@@ -20,6 +20,6 @@ WriteMakefile(
     EXE_FILES           => ['script/maisha'],
 
     ($] >= 5.005 ?
-        (ABSTRACT_FROM  => 'lib/App/Maisha.pm',
+        (ABSTRACT       => 'A command line social micro-blog networking tool.',
          AUTHOR         => 'Barbie <barbie@cpan.org>') : ()),
 );

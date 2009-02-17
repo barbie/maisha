@@ -3,7 +3,7 @@ package App::Maisha::Plugin::Base;
 use strict;
 use warnings;
 
-my $VERSION = '0.06';
+my $VERSION = '0.07';
 
 #----------------------------------------------------------------------------
 # Public API
@@ -24,21 +24,21 @@ sub new {
 
 sub login { return 0 }
 
-sub api_update {}
-sub api_friends {}
-sub api_user {}
-sub api_user_timeline {}
-sub api_friends_timeline {}
-sub api_public_timeline {}
-sub api_followers {}
+sub api_update                  {}
+sub api_friends                 {}
+sub api_user                    {}
+sub api_user_timeline           {}
+sub api_friends_timeline        {}
+sub api_public_timeline         {}
+sub api_followers               {}
 
-sub api_replies {}
-sub api_send_message {}
-sub api_direct_messages_to {}
-sub api_direct_messages_from {}
+sub api_replies                 {}
+sub api_send_message            {}
+sub api_direct_messages_to      {}
+sub api_direct_messages_from    {}
 
-sub api_follow {}
-sub api_unfollow {}
+sub api_follow                  {}
+sub api_unfollow                {}
 
 1;
 
