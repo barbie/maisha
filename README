@@ -16,10 +16,10 @@ The distribution requires the following modules:
   Test::More
   Text::Wrap
 
-  File::HomeDir		# used by maisha script
-  FindBin		# used by maisha script
-  Getopt::Long		# used by maisha script
-  Pod::Usage		# used by maisha script
+  File::HomeDir         # used by maisha script
+  FindBin               # used by maisha script
+  Getopt::Long          # used by maisha script
+  Pod::Usage            # used by maisha script
 
 INSTALLATION
 
