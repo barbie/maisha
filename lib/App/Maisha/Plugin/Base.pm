@@ -3,7 +3,7 @@ package App::Maisha::Plugin::Base;
 use strict;
 use warnings;
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 #----------------------------------------------------------------------------
 # Public API
@@ -112,11 +112,21 @@ The API methods are used to interface to with the Twitter API.
 For further information regarding the commands and configuration, please see
 the 'maisha' script included with this distribution.
 
-L<App::Maisha> - http://maisha.grango.org
+L<App::Maisha>
+
+=head1 WEBSITES
+
+=over 4
+
+=item * Main Site: L<http://maisha.grango.org>
+=item * Git Repo:  L<http://github.com/barbie/maisha/tree/master>
+=item * RT Queue:  L<RT: http://rt.cpan.org/Public/Dist/Display.html?Name=App-Maisha>
+
+=back
 
 =head1 AUTHOR
 
-  Copyright (c) 2009 Barbie <barbie@cpan.org> Miss Barbell Productions.
+  Copyright (c) 2009 Barbie <barbie@cpan.org> for Grango.org.
 
 =head1 LICENSE
 

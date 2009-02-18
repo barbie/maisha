@@ -3,7 +3,7 @@ package App::Maisha::Shell;
 use strict;
 use warnings;
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 #----------------------------------------------------------------------------
 
@@ -1026,19 +1026,29 @@ Used to display the current networks list above the command line.
 For further information regarding the commands and configuration, please see
 the 'maisha' script included with this distribution.
 
-L<App::Maisha> - http://maisha.grango.org
+L<App::Maisha>
 
 L<Term::Shell>
 
+=head1 WEBSITES
+
+=over 4
+
+=item * Main Site: L<http://maisha.grango.org>
+=item * Git Repo:  L<http://github.com/barbie/maisha/tree/master>
+=item * RT Queue:  L<RT: http://rt.cpan.org/Public/Dist/Display.html?Name=App-Maisha>
+
+=back
+
 =head1 AUTHOR
 
-Copyright (c) 2009 Barbie <barbie@cpan.org> Miss Barbell Productions.
+  Copyright (c) 2009 Barbie <barbie@cpan.org> for Grango.org.
 
 =head1 LICENSE
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+  This program is free software; you can redistribute it and/or modify it
+  under the same terms as Perl itself.
 
-See http://www.perl.com/perl/misc/Artistic.html
+  See http://www.perl.com/perl/misc/Artistic.html
 
 =cut

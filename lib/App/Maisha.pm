@@ -3,7 +3,7 @@ package App::Maisha;
 use strict;
 use warnings;
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 #----------------------------------------------------------------------------
 
@@ -20,6 +20,9 @@ App::Maisha - A command line social micro-blog networking tool.
 
 This distribution provides the ability to micro-blog via social networking
 websites and services, such as Identica and Twitter.
+
+For further information regarding the commands and configuration, please see
+the 'maisha' script included with this distribution.
 
 =cut
 
@@ -137,12 +140,15 @@ Starts the command loop shell, and awaits your command.
 
 =back
 
-=head1 SEE ALSO
+=head1 WEBSITES
 
-For further information regarding the commands and configuration, please see
-the 'maisha' script included with this distribution.
+=over 4
 
-See http://maisha.grango.org
+=item * Main Site: L<http://maisha.grango.org>
+=item * Git Repo:  L<http://github.com/barbie/maisha/tree/master>
+=item * RT Queue:  L<RT: http://rt.cpan.org/Public/Dist/Display.html?Name=App-Maisha>
+
+=back
 
 =head1 THANKS TO
 
@@ -153,13 +159,13 @@ Dave Cross, Robert Rothenberg and Steffen Müller.
 
 =head1 AUTHOR
 
-Copyright (c) 2009 Barbie <barbie@cpan.org> Miss Barbell Productions.
+  Copyright (c) 2009 Barbie <barbie@cpan.org> for Grango.org.
 
 =head1 LICENSE
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+  This program is free software; you can redistribute it and/or modify it
+  under the same terms as Perl itself.
 
-See http://www.perl.com/perl/misc/Artistic.html
+  See http://www.perl.com/perl/misc/Artistic.html
 
 =cut

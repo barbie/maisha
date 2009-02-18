@@ -50,11 +50,18 @@ to barbie@cpan.org .
 
 RT: http://rt.cpan.org/Public/Dist/Display.html?Name=App-Maisha
 
+WEBSITES
+
+Main Site: http://maisha.grango.org
+Git Repo:  http://github.com/barbie/maisha/tree/master
+
 AUTHOR & COPYRIGHT
 
-  Barbie <barbie@cpan.org> Copyright (C) 2009
+  Copyright (c) 2009 Barbie <barbie@cpan.org> for Grango.org.
 
 LICENCE
 
-  This package is free software; you can redistribute it and/or 
-  modify it under the same terms as Perl itself.
+  This program is free software; you can redistribute it and/or modify it
+  under the same terms as Perl itself.
+
+  See http://www.perl.com/perl/misc/Artistic.html

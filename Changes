@@ -1,6 +1,9 @@
 # Changes log for App-Maisha
 ============================
 
+0.12	current
+	- various documentation updates.
+
 0.11	18/02/2009
 	- improved META.yml testing in 94metatest.t.
 	- added plugin check for 'use' command.
