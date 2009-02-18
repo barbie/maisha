@@ -9,6 +9,7 @@ WriteMakefile(
         'Net::Identica'         => '2.05',
         'Net::Twitter'          => '2.06',
         'Term::Shell'           => '0',
+        'Text::Wrap'            => '0',
 
         'File::HomeDir'         => '0',     # used by maisha script
         'FindBin'               => '0',     # used by maisha script

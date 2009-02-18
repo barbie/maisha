@@ -3,7 +3,7 @@ package App::Maisha::Shell;
 use strict;
 use warnings;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 #----------------------------------------------------------------------------
 
@@ -28,9 +28,12 @@ websites and services, such as Identica and Twitter.
 
 use base qw(Term::Shell);
 use Module::Pluggable   instantiate => 'new', search_path => ['App::Maisha::Plugin'];
+use Text::Wrap;
 
 #----------------------------------------------------------------------------
 # Variables
+
+$Text::Wrap::columns = 80;
 
 my %plugins;    # contains all available plugins
 
@@ -112,11 +115,15 @@ END
 
 sub run_use {
     my ($self,$plug) = @_;
-    my $services = $self->services;
-    my @new = grep {ref($_) !~ /^App::Maisha::Plugin::$plug$/} @$services;
-    unshift @new, $self->_get_plugin($plug);
-    $self->services(\@new);
-    $self->_reset_networks;
+    if(my $p = $self->_get_plugin($plug)) {
+        my $services = $self->services;
+        my @new = grep {ref($_) !~ /^App::Maisha::Plugin::$plug$/} @$services;
+        unshift @new, $self->_get_plugin($plug);
+        $self->services(\@new);
+        $self->_reset_networks;
+    } else {
+        warn "Unknown plugin\n";
+    }
 }
 sub smry_use { "set primary service" }
 sub help_use {
@@ -399,10 +406,8 @@ sub smry_dm { "alias to direct_messages" }
 #
 
 sub run_send_message {
-    my ($self,$user,@text) = @_;
-    my $mess = "@text";
-    $mess =~ s/^\s+//;
-    $mess =~ s/\s+$//;
+    my $self = shift;
+    my (undef,$user,$mess) = split(/\s+/,$self->line(),3);
 
     $user =~ s/^\@//    if($user);
     unless($user) {
@@ -410,11 +415,13 @@ sub run_send_message {
         return;
     }
 
-    unless($mess) {
+    unless(defined $mess && $mess =~ /\S/) {
         print "cannot send an empty message\n\n";
         return;
     }
 
+    $mess =~ s/^\s+//;
+    $mess =~ s/\s+$//;
     my $len = length $mess;
     if($len > 140) {
         print "message too long: $len/140\n\n";
@@ -447,7 +454,7 @@ sub smry_send { "alias to send_message" }
 
 sub run_update {
     my $self = shift;
-    my $text = "@_";
+    my (undef,$text) = split(' ',$self->line(),2);
     $text =~ s/^\s+//;
     $text =~ s/\s+$//;
 
@@ -631,7 +638,7 @@ sub _print_messages {
     my ($self,$limit,$who,$ret) = @_;
     my @recs = $self->order =~ /^asc/i ? reverse @$ret : @$ret;
     splice(@recs,0,20-$limit)  if($limit && $limit < 20);
-    printf( "[%s] %s\n", $_->{$who}{screen_name}, $_->{text})   for(@recs);
+    print(wrap('','    ',sprintf("[%s] %s\n", $_->{$who}{screen_name}, $_->{text})))   for(@recs);
 }
 
 sub _load_plugins {

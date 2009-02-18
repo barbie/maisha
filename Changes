@@ -1,6 +1,15 @@
 # Changes log for App-Maisha
 ============================
 
+0.11	18/02/2009
+	- improved META.yml testing in 94metatest.t.
+	- added plugin check for 'use' command.
+	- fixed send_message and update so that single quotes are accepted, as
+	  Term::Shell was stripping them out :(
+	- added 92disttest.t and 95changedate.t tests to the suite.
+	- added Text::Wrap at Rob Rothenberg's suggestion to more neatly wrap
+	  the messages and replies listings.
+
 0.10	17/02/2009
 	- somethimes I'm just too eager. META.yml now updated too!
 

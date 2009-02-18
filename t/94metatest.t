@@ -6,5 +6,19 @@ plan skip_all => "Author tests not required for installation"
 
 eval "use Test::CPAN::Meta 0.12";
 plan skip_all => "Test::CPAN::Meta 0.12 required for testing META.yml" if $@;
-meta_yaml_ok();
 
+plan no_plan;
+
+my $yaml = meta_spec_ok(undef,undef,@_);
+
+use App::Maisha;
+
+is($yaml->{version},$App::Maisha::VERSION,
+    'META.yml distribution version matches');
+
+if($yaml->{provides}) {
+    for my $mod (keys %{$yaml->{provides}}) {
+        is($yaml->{provides}{$mod}{version},$App::Maisha::VERSION,
+            "META.yml entry [$mod] version matches");
+    }
+}
