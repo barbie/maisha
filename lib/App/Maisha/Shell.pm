@@ -213,6 +213,16 @@ Displays a user profile.
 END
 }
 
+sub comp_user {
+    my ($self, $word, $line, $start_index) = @_;
+    my $services = $self->services;
+    my $service  = $services->[0] || return;
+    return  unless($service && $service->can('users'));
+
+    my $users = $service->users;
+    return grep { /^$word/ } keys %$users;
+}
+
 
 #
 # Follow/Unfollow
@@ -325,10 +335,12 @@ sub help_user_timeline {
 Displays the most recent status messages for a specified user.
 END
 }
+*comp_user_timeline = \&comp_user;
 
 *run_ut = \&run_user_timeline;
 sub smry_ut { "alias to user_timeline" }
 *help_ut = \&help_user_timeline;
+*comp_ut = \&comp_user;
 
 
 #
@@ -423,6 +435,10 @@ Posts a message (upto 140 characters), to a named user.
 END
 }
 
+*comp_send_message = \&comp_user;
+*comp_send = \&comp_user;
+*comp_sm = \&comp_user;
+
 *run_send = \&run_send_message;
 sub smry_send { "alias to send_message" }
 *help_send = \&help_send_message;
@@ -466,10 +482,13 @@ Posts a message (upto 140 characters).
 END
 }
 
+*comp_update = \&comp_user;
+
 # help
 *run_say = \&run_update;
 sub smry_say { "alias to 'update'" }
 *help_say = \&help_update;
+*comp_say = \&comp_user;
 
 
 #
@@ -927,6 +946,7 @@ The user methods provide the handlers display the profile of a named user.
 =item * run_user
 =item * help_user
 =item * smry_user
+=item * comp_user
 
 =back
 
@@ -940,10 +960,12 @@ command. Note that the 'ut' is an alias to 'user_timeline'.
 =item * run_user_timeline
 =item * help_user_timeline
 =item * smry_user_timeline
+=item * comp_user_timeline
 
 =item * run_ut
 =item * help_ut
 =item * smry_ut
+=item * comp_ut
 
 =back
 
@@ -1003,10 +1025,12 @@ The update methods provide the handlers for the 'update' command. Note that
 =item * run_update
 =item * help_update
 =item * smry_update
+=item * comp_update
 
 =item * run_say
 =item * help_say
 =item * smry_say
+=item * comp_say
 
 =back
 
@@ -1068,14 +1092,17 @@ Note that both 'send' and 'sm' are aliases to 'send_message'
 =item * run_send_message
 =item * help_send_message
 =item * smry_send_message
+=item * comp_send_message
 
 =item * run_send
 =item * help_send
 =item * smry_send
+=item * comp_send
 
 =item * run_sm
 =item * help_sm
 =item * smry_sm
+=item * comp_sm
 
 =back
 

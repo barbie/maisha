@@ -15,7 +15,7 @@ use Net::Identica;
 #----------------------------------------------------------------------------
 # Accessors
 
-__PACKAGE__->mk_accessors($_) for qw(api);
+__PACKAGE__->mk_accessors($_) for qw(api users);
 
 #----------------------------------------------------------------------------
 # Public API
@@ -36,7 +36,18 @@ sub login {
     return 0    unless($api);
 
     $self->api($api);
+    print "...building user cache for Identica\n";
+    $self->_build_users();
     return 1;
+}
+
+sub _build_users {
+    my $self = shift;
+    my $friends = $self->api->friends();
+    my $followers = $self->api->followers();
+    my %users;
+    $users{$_->{screen_name}} = 1  for(@$friends, @$followers);
+    $self->users(\%users);
 }
 
 sub api_update
