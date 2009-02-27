@@ -1,8 +1,15 @@
 # Changes log for App-Maisha
 ============================
 
-0.12	current
+0.12	27/02/2009
 	- various documentation updates.
+	- timelines are filtered through a pager (RR)
+	- added completion for use command (RR)
+	- fixed bug with configured message limits.
+	- added user defined message formatting
+	- added user defined terminal character width
+
+	RR = Robert Rothenberg. Many thanks for the patches and ideas Rob.
 
 0.11	18/02/2009
 	- improved META.yml testing in 94metatest.t.

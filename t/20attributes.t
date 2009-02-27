@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 30;
+use Test::More tests => 42;
 use App::Maisha;
 use App::Maisha::Shell;
 
@@ -36,6 +36,9 @@ for my $k ( qw/
 	tag_str
 	order
 	limit
+    pager
+    format
+    chars
 / ){
   my $label = "[$k]";
   SKIP: {

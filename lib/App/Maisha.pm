@@ -85,8 +85,11 @@ sub setup {
 
     $shell->prompt_str($prompt);
     $shell->tag_str($tag);
-    $shell->order(defined $config->{CONFIG}{order} ? $config->{CONFIG}{order} : 'descending');
-    $shell->limit(defined $config->{CONFIG}{limit} ? $config->{CONFIG}{limit} : 0);
+    $shell->pager( defined $config->{CONFIG}{pager}  ? $config->{CONFIG}{pager}  : 1 );
+    $shell->order( defined $config->{CONFIG}{order}  ? $config->{CONFIG}{order}  : 'descending');
+    $shell->limit( defined $config->{CONFIG}{limit}  ? $config->{CONFIG}{limit}  : 0);
+    $shell->chars( defined $config->{CONFIG}{chars}  ? $config->{CONFIG}{chars}  : 80);
+    $shell->format(defined $config->{CONFIG}{format} ? $config->{CONFIG}{format} : '[%U] %M');
 
     # connect to the available sites
     for my $plugin (keys %$config) {

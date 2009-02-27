@@ -46,6 +46,9 @@ sub tag_str    { shift->_elem('tag_str',    @_) }
 sub order      { shift->_elem('order',      @_) }
 sub limit      { shift->_elem('limit',      @_) }
 sub services   { shift->_elem('services',   @_) }
+sub pager      { shift->_elem('pager',      @_) }
+sub format     { shift->_elem('format',     @_) }
+sub chars      { shift->_elem('chars',      @_) }
 
 #----------------------------------------------------------------------------
 # Public API
@@ -132,6 +135,14 @@ Set the primary service for message list commands.
 END
 }
 
+sub comp_use {
+    my ($self, $word, $line, $start_index) = @_;
+    my $services = $self->services;
+    my @networks = map {
+	ref($_) =~ /^App::Maisha::Plugin::(.+)/; $1;
+    } @$services;
+    return grep { /^$word/ } @networks;
+}
 
 #
 # Followers
@@ -270,7 +281,7 @@ sub run_friends_timeline {
     my $ret  = $self->_command('friends_timeline');
 
     if ($ret) {
-        my $limit = defined @_ ? shift : $self->limit;
+        my $limit = @_ && $_[0] =~ /^\d+$/ ? shift : $self->limit;
         $self->_print_messages($limit,'user',$ret);
     }
 }
@@ -296,7 +307,7 @@ sub run_public_timeline {
     my $ret  = $self->_command('public_timeline');
 
     if ($ret) {
-        my $limit = defined @_ ? shift : $self->limit;
+        my $limit = @_ && $_[0] =~ /^\d+$/ ? shift : $self->limit;
         $self->_print_messages($limit,'user',$ret);
     }
 }
@@ -330,8 +341,10 @@ sub run_user_timeline {
     my $ref = { id => $user };
     my $ret = $self->_command('user_timeline',$ref);
 
+    print "count=".(scalar(@$ret))."\n";
+
     if ($ret) {
-        my $limit = defined @_ ? shift : $self->limit;
+        my $limit = @_ && $_[0] =~ /^\d+$/ ? shift : $self->limit;
         $self->_print_messages($limit,'user',$ret);
     }
 }
@@ -357,7 +370,7 @@ sub run_replies {
     my $ret  = $self->_command('replies');
 
     if ($ret) {
-        my $limit = defined @_ ? shift : $self->limit;
+        my $limit = @_ && $_[0] =~ /^\d+$/ ? shift : $self->limit;
         $self->_print_messages($limit,'user',$ret);
     }
 }
@@ -556,8 +569,8 @@ sub run_quit {
 *help_q = \&help_quit;
 
 sub postcmd {
-    my $self = shift;
-    print $self->networks;
+    my ($self, $handler, $cmd, $args) = @_;
+    print $self->networks   unless ($handler && ($$handler =~ /^comp_/));
 }
 
 #----------------------------------------------------------------------------
@@ -636,9 +649,38 @@ sub _commands {
 
 sub _print_messages {
     my ($self,$limit,$who,$ret) = @_;
-    my @recs = $self->order =~ /^asc/i ? reverse @$ret : @$ret;
-    splice(@recs,0,20-$limit)  if($limit && $limit < 20);
-    print(wrap('','    ',sprintf("[%s] %s\n", $_->{$who}{screen_name}, $_->{text})))   for(@recs);
+
+    $Text::Wrap::columns = $self->chars;
+
+    my @recs = $self->order =~ /^asc/i ? @$ret : reverse @$ret;
+    splice(@recs,$limit)  if($limit && $limit < scalar(@recs));
+    @recs = reverse @recs;
+
+    my $msgs = "\n" .
+        join("\n",  map {
+                        wrap('','    ',$self->_format_message($_,$who))
+                    } @recs ) . "\n";
+    if ($self->pager) {
+        $self->page($msgs);
+    } else {
+        print $msgs;
+    }
+}
+
+sub _format_message {
+    my ($self,$mess,$who) = @_;
+
+    my $network = $self->networks();
+    $network =~ s!^.*?\[([^\]]+)\].*!$1!s;
+
+    my $timestamp = $mess->{created_at};
+
+    my $format = $self->format;
+    $format =~ s!\%U!$mess->{$who}{screen_name}!g;
+    $format =~ s!\%M!$mess->{text}!g;
+    $format =~ s!\%T!$timestamp!g;
+    $format =~ s!\%N!$network!g;
+    return $format;
 }
 
 sub _load_plugins {
@@ -713,6 +755,33 @@ configuration file.
 Provides the order of services available, the first is always the primary
 service.
 
+=item * pager
+
+Enables the use of a pager when viewing timelines.  Defaults to true
+if not specified.
+
+=item * format
+
+When printing a list of status messages, the default format of printing the
+username followed by the status message is not always suitable for everyone. As
+such you can define your own formatting.
+
+The default format is "[%U] %M", with the available formatting patterns defined
+as:
+
+  %U - username or screen name
+  %M - status message
+  %T - timestamp
+  %N - network
+
+=item * chars
+
+As Maisha is run from the command line, it is most likely being run within a
+terminal window. Unfortunately there isn't currently a detection method for
+knowing the exact screen width being used. As such you can specify a width for
+the wrapper to use to ensure the messages are correctly line wrapped. The
+default setting is 80.
+
 =back
 
 =head2 Run Methods
@@ -730,6 +799,12 @@ argument.
 When the 'help' command is requested, with no additonal arguments, a summary
 of the available commands is display, with the text from each specific command
 summary method handler.
+
+=head2 Completion Methods
+
+For some commands completion methods are available to help complete the command
+request. for example with the 'use' command, pressing <TAB> will attempt to
+complete the name of the Network plugin name for you.
 
 =head2 Connect Methods
 
@@ -770,6 +845,7 @@ used when 'update' or 'say' are used.
 =item * run_use
 =item * help_use
 =item * smry_use
+=item * comp_use
 
 =back
 

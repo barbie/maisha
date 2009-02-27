@@ -155,7 +155,7 @@ to sensible values should they not be user defined.
 
 =item * prompt
 
-The prompt you wish to see on the command line. This will default to 'twitter>'
+The prompt you wish to see on the command line. This will default to 'maisha>'
 if not configured.
 
 =item * tag
@@ -174,6 +174,33 @@ insensitive and should be set to 'ascending' or 'asc' to reverse the order.
 
 Describes how many status messages should be printed when a timeline command is
 requested. Will default to the last 20 if not configured.
+
+=item * pager
+
+Enables the use of a pager when viewing timelines.  Defaults to true
+if not specified.
+
+=item * format
+
+When printing a list of status messages, the default format of printing the
+username followed by the status message is not always suitable for everyone. As
+such you can define your own formatting.
+
+The default format is "[%U] %M", with the available formatting patterns defined
+as:
+
+  %U - username or screen name
+  %M - status message
+  %T - timestamp
+  %N - network
+
+=item * chars
+
+As Maisha is run from the command line, it is most likely being run within a 
+terminal window. Unfortunately there isn't currently a detection method for 
+knowing the exact screen width being used. As such you can specify a width for
+the wrapper to use to ensure the messages are correctly line wrapped. The 
+default setting is 80.
 
 =back
 
