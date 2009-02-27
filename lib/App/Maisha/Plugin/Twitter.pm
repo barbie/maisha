@@ -42,10 +42,13 @@ sub login {
 
 sub _build_users {
     my $self = shift;
-    my $friends = $self->api->friends();
-    my $followers = $self->api->followers();
     my %users;
-    $users{$_->{screen_name}} = 1  for(@$friends, @$followers);
+
+    my $f = $self->api->friends();
+    if($f && @$f)   { for(@$f) { next unless($_); $users{$_->{screen_name}} = 1 } }
+    $f = $self->api->followers();
+    if($f && @$f)   { for(@$f) { next unless($_); $users{$_->{screen_name}} = 1 } }
+
     $self->users(\%users);
 }
 

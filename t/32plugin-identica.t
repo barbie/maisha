@@ -22,10 +22,8 @@ BEGIN {
             update
             show_user
             user_timeline
-            friends
             friends_timeline
             public_timeline
-            followers
             replies
             new_direct_message
             direct_messages
@@ -33,6 +31,9 @@ BEGIN {
             create_friend
             destroy_friend
         ));
+
+        $mock->set_list('friends',   ());
+        $mock->set_list('followers', ());
     }
 }
 
