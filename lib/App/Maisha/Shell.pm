@@ -623,6 +623,7 @@ sub _run_timeline {
     for my $page (1..$max) {
         my $ref = {id => $user, page => $page};
         my $ret = $self->_command($cmd,$ref);
+        next    unless($ret);
         push @res, @$ret;
     }
 

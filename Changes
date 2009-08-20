@@ -1,7 +1,7 @@
 # Changes log for App-Maisha
 ============================
 
-0.13	current
+0.13	20/08/2009
 	- fixed requests with limits larger than 20.
 	- suppressing 'command ok' messages.
 	- refactored common code in to new functions
