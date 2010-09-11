@@ -47,6 +47,9 @@ provides:
   App::Maisha::Plugin::Identica:
     file: lib/App/Maisha/Plugin/Identica.pm
     version: 0.14
+  App::Maisha::Plugin::Test:
+    file: lib/App/Maisha/Plugin/Test.pm
+    version: 0.14
   App::Maisha::Plugin::Twitter:
     file: lib/App/Maisha/Plugin/Twitter.pm
     version: 0.14

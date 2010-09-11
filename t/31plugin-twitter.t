@@ -49,7 +49,7 @@ SKIP: {
     ok( my $obj = App::Maisha::Plugin::Twitter->new(), "got object" );
     isa_ok($obj,'App::Maisha::Plugin::Twitter');
 
-    my $ret = $obj->login({ home => '.', test => 1 });
+    my $ret = $obj->login({ username => 'test', home => '.', test => 1 });
     is($ret, 1, '.. login done');
 
     my $api = $obj->api();
