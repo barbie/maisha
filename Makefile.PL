@@ -8,8 +8,8 @@ WriteMakefile(
         'File::HomeDir'         => '0',
         'File::Path'            => '0',
         'Module::Pluggable'     => '2.7',
-        'Net::Identica'         => '2.05',
-        'Net::Twitter'          => '2.06',
+        'Net::Identica'         => '3.13008',
+        'Net::Twitter'          => '3.13008',
         'Storable'              => '0',
         'Term::Shell'           => '0',
         'Text::Wrap'            => '0',
@@ -18,7 +18,7 @@ WriteMakefile(
         'Getopt::Long'          => '0',     # used by maisha script
         'Pod::Usage'            => '0',     # used by maisha script
 
-        'Test::More'            => '0.47',  # testing only
+        'Test::More'            => '0.70',  # testing only
     },
 	NO_META			    => 1,
     EXE_FILES           => ['script/maisha'],

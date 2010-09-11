@@ -17,21 +17,22 @@ requires:
   FindBin:                  0
   Getopt::Long:             0
   Module::Pluggable:        2.7
-  Net::Identica:            2.05
-  Net::Twitter:             2.06
+  Net::Identica:            3.13008
+  Net::Twitter:             3.13008
   Pod::Usage:               0
   Storable:                 0
   Term::Shell:              0
-  Test::More:               0.47
+  Test::More:               0.70
   Text::Wrap:               0
 recommends:
-  Test::CPAN::Meta:         0.12
+  Test::CPAN::Meta:         0.13
+  Test::JSON::Meta:         0.08
   Test::Distribution:       2.00
-  Test::More:               0.47
+  Test::More:               0.70
   Test::Pod:                1.00
   Test::Pod::Coverage:      0.08
 build_requires:
-  Test::More:               0.47
+  Test::More:               0.70
 
 provides:
   App::Maisha:

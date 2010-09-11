@@ -48,16 +48,18 @@ sub login {
     my ($self,$config) = @_;
 
     my $api = Net::Twitter->new(
+#        traits              => [qw/API::REST OAuth WrapError/],
         traits              => [qw/API::REST OAuth/],
         consumer_key        => $self->{consumer_key},
         consumer_secret     => $self->{consumer_secret},
+        ssl                 => 1
     );
 
     return 0    unless($api);
 
     # for testing purposes we don't want to login
     if(!$config->{test}) {
-        my $datafile = $config->{home} . '.maisha/twitter.dat';
+        my $datafile = $config->{home} . '/.maisha/twitter.dat';
         my $access_tokens = eval { retrieve($datafile) } || {};
 
         if ( $access_tokens && $access_tokens->{$config->{username}}) {
@@ -75,7 +77,7 @@ sub login {
             my @access_tokens = $api->request_access_token(verifier => $pin);
             $access_tokens->{$config->{username}} = \@access_tokens;
 
-            mkpath( $config->{home} . '.maisha' );
+            mkpath( $config->{home} . '/.maisha' );
 
             # save the access tokens
             store $access_tokens, $datafile;
