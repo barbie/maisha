@@ -47,6 +47,8 @@ sub new {
 sub login {
     my ($self,$config) = @_;
 
+    unless($config->{username}) { warn "No username supplied\n"; return }
+
     my $api = Net::Twitter->new(
 #        traits              => [qw/API::REST OAuth WrapError/],
         traits              => [qw/API::REST OAuth/],
@@ -55,7 +57,10 @@ sub login {
         ssl                 => 1
     );
 
-    return 0    unless($api);
+    unless($api) {
+        warn "Unable to establish connection to Twitter API\n";
+        return 0;
+    }
 
     # for testing purposes we don't want to login
     if(!$config->{test}) {

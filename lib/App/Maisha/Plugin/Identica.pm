@@ -36,8 +36,10 @@ sub login {
         clienturl   => $self->{clienturl}
     );
 
-    warn "Unable to establish Identica API\n"   unless($api);
-    return 0    unless($api);
+    unless($api) {
+        warn "Unable to establish connection to Identica API\n";
+        return 0;
+    }
 
     $self->api($api);
     print "...building user cache for Identica\n";
