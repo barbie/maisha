@@ -288,7 +288,6 @@ Requires Config::Tiny to be available.
 
   [Identica]
   username=yourlogin
-  password=yourpassword
 
   [Twitter]
   username=yourlogin
@@ -305,7 +304,6 @@ Requires YAML or YAML::Syck to be available.
   
   Twitter:
     username: yourlogin
-    password: yourpassword
   
   Identica:
     username: yourlogin
@@ -317,13 +315,13 @@ No additional dependencies required.
 
   {
     CONFIG      => {'order': 'asc','tag': '.'},
-    Twitter     => {'username': 'yourlogin','password': 'yourpassword'},
+    Twitter     => {'username': 'yourlogin'},
     Identica    => {'username': 'yourlogin','password': 'yourpassword'},
   }
 
 =head1 AUTHOR
 
-Copyright (c) 2009 Barbie <barbie@cpan.org> Miss Barbell Productions.
+Copyright (c) 2009-2010 Barbie <barbie@cpan.org> Miss Barbell Productions.
 
 =head1 LICENSE
 

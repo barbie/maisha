@@ -57,68 +57,57 @@ sub _build_users {
     $self->users(\%users);
 }
 
-sub api_update
-{
+sub api_update {
     my $self = shift;
     $self->api->update(@_);
 }
 
-sub api_user
-{
+sub api_user {
     my $self = shift;
     $self->api->show_user(@_);
 }
 
-sub api_user_timeline
-{
+sub api_user_timeline {
     my $self = shift;
     $self->api->user_timeline(@_);
 }
 
-sub api_friends
-{
+sub api_friends {
     my $self = shift;
     $self->api->friends();
 }
 
-sub api_friends_timeline
-{
+sub api_friends_timeline {
     my $self = shift;
     $self->api->friends_timeline();
 }
 
-sub api_public_timeline
-{
+sub api_public_timeline {
     my $self = shift;
     $self->api->public_timeline();
 }
 
-sub api_followers
-{
+sub api_followers {
     my $self = shift;
     $self->api->followers();
 }
 
-sub api_replies
-{
+sub api_replies {
     my $self = shift;
     $self->api->replies();
 }
 
-sub api_send_message
-{
+sub api_send_message {
     my $self = shift;
     $self->api->new_direct_message(@_);
 }
 
-sub api_direct_messages_to
-{
+sub api_direct_messages_to {
     my $self = shift;
     $self->api->direct_messages();
 }
 
-sub api_direct_messages_from
-{
+sub api_direct_messages_from {
     my $self = shift;
     $self->api->sent_direct_messages();
 }
@@ -213,7 +202,7 @@ L<Net::Identica>
 
 =head1 AUTHOR
 
-  Copyright (c) 2009 Barbie <barbie@cpan.org> for Grango.org.
+  Copyright (c) 2009-2010 Barbie <barbie@cpan.org> for Grango.org.
 
 =head1 LICENSE
 

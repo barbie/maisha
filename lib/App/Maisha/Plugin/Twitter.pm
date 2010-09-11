@@ -58,11 +58,11 @@ sub login {
     # for testing purposes we don't want to login
     if(!$config->{test}) {
         my $datafile = $config->{home} . '.maisha/twitter.dat';
-        my $access_tokens = eval { retrieve($datafile) } || [];
+        my $access_tokens = eval { retrieve($datafile) } || {};
 
-        if ( @$access_tokens ) {
-            $api->access_token($access_tokens->[0]);
-            $api->access_token_secret($access_tokens->[1]);
+        if ( $access_tokens && $access_tokens->{$config->{username}}) {
+            $api->access_token($access_tokens->{$config->{username}}->[0]);
+            $api->access_token_secret($access_tokens->{$config->{username}}->[1]);
         }
         else {
             my $auth_url = $api->get_authorization_url;
@@ -73,11 +73,12 @@ sub login {
 
             # request_access_token stores the tokens in $nt AND returns them
             my @access_tokens = $api->request_access_token(verifier => $pin);
+            $access_tokens->{$config->{username}} = \@access_tokens;
 
             mkpath( $config->{home} . '.maisha' );
 
             # save the access tokens
-            store \@access_tokens, $datafile;
+            store $access_tokens, $datafile;
         }
     }
 
@@ -199,7 +200,7 @@ API.
 
 =item * login
 
-Login to the service.
+Login to the service. See Authentication below.
 
 =back
 
@@ -237,6 +238,24 @@ The API methods are used to interface to with the Twitter API.
 
 =back
 
+=head1 AUTHENTICATION
+
+On 31st August 2010, Twitter disabled Basic Authentication to access their API.
+Instead they have introduce the OAuth method of authrntication, which now 
+requires application developers to request the user to authenticate themselves 
+and provide a PIN (Personal Identification Number) to allow the application to
+retrieve access tokens.
+
+With this new method of authentication, the application will provide a URL,
+which the user needs to cut-n-paste into a browser. You will then need to login
+to the service, using your regular username/password. You will then be given a
+PIN, which should then be entered at the prompt on the command line.
+
+Once you have completed authentication, the application will then store your 
+access tokens permanently under your profile on your computer. Then when you
+next use the application it will retrieve these access tokens automatically and
+you will no longer need to register the application.
+
 =head1 SEE ALSO
 
 For further information regarding the commands and configuration, please see
@@ -258,7 +277,7 @@ L<Net::Twitter>
 
 =head1 AUTHOR
 
-  Copyright (c) 2009 Barbie <barbie@cpan.org> for Grango.org.
+  Copyright (c) 2009-2010 Barbie <barbie@cpan.org> for Grango.org.
 
 =head1 LICENSE
 

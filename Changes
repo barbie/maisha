@@ -6,6 +6,7 @@
 	- rewrite to Twitter.pm to use OAuth mechanism for logging in.
 	- interface to plugins changed, now passes a config hash.
 	- config hash now saves the home directory.
+	- added META.json file and associated test.
 
 0.13	20/08/2009
 	- fixed requests with limits larger than 20.
