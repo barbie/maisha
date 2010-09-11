@@ -44,7 +44,7 @@ SKIP: {
     ok( my $obj = App::Maisha::Plugin::Identica->new(), "got object" );
     isa_ok($obj,'App::Maisha::Plugin::Identica');
 
-    my $ret = $obj->login('Identica','blah','blah');
+    my $ret = $obj->login({username => 'blah', password => 'blah'});
     is($ret, 1, '.. login done');
 
     my $api = $obj->api();

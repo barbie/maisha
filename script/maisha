@@ -283,16 +283,16 @@ available if requested with no arguments.
 Requires Config::Tiny to be available.
 
   [CONFIG]
-  order: asc
-  tag: .
+  order=asc
+  tag=.
 
   [Identica]
-  username: yourlogin
-  password: yourpassword
+  username=yourlogin
+  password=yourpassword
 
   [Twitter]
-  username: yourlogin
-  password: yourpassword
+  username=yourlogin
+  password=yourpassword
 
 =head3 YAML Style Configuration
 

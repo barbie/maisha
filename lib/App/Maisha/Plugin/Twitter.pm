@@ -3,14 +3,16 @@ package App::Maisha::Plugin::Twitter;
 use strict;
 use warnings;
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 #----------------------------------------------------------------------------
 # Library Modules
 
 use base qw(App::Maisha::Plugin::Base);
 use base qw(Class::Accessor::Fast);
+use File::Path;
 use Net::Twitter;
+use Storable;
 
 #----------------------------------------------------------------------------
 # Accessors
@@ -20,19 +22,64 @@ __PACKAGE__->mk_accessors($_) for qw(api users);
 #----------------------------------------------------------------------------
 # Public API
 
+#Request token URL
+#https://api.twitter.com/oauth/request_token
+
+#Access token URL
+#https://api.twitter.com/oauth/access_token
+
+#Authorize URL
+#https://api.twitter.com/oauth/authorize
+
+# http://dev.twitter.com/apps/347040
+
+sub new {
+    my $class = shift;
+    my $self = {
+        consumer_key    => 'ifCuNOQXA5KTnKVXVcZg',
+        consumer_secret => 'OXyHE1PSgfy66gbCu3QshXgP9RNA1fOVLdqv4afPDug',
+    };
+
+    bless $self, $class;
+    return $self;
+}
+
 sub login {
-    my ($self,$user,$pass) = @_;
+    my ($self,$config) = @_;
+
     my $api = Net::Twitter->new(
-        username    => $user,
-        password    => $pass,
-        source      => $self->{source},
-        useragent   => $self->{useragent},
-        clientname  => $self->{clientname},
-        clientver   => $self->{clientver},
-        clienturl   => $self->{clienturl}
+        traits              => [qw/API::REST OAuth/],
+        consumer_key        => $self->{consumer_key},
+        consumer_secret     => $self->{consumer_secret},
     );
 
     return 0    unless($api);
+
+    # for testing purposes we don't want to login
+    if(!$config->{test}) {
+        my $datafile = $config->{home} . '.maisha/twitter.dat';
+        my $access_tokens = eval { retrieve($datafile) } || [];
+
+        if ( @$access_tokens ) {
+            $api->access_token($access_tokens->[0]);
+            $api->access_token_secret($access_tokens->[1]);
+        }
+        else {
+            my $auth_url = $api->get_authorization_url;
+            print " Authorize this application at: $auth_url\nThen, enter the PIN# provided to continue: ";
+
+            my $pin = <STDIN>; # wait for input
+            chomp $pin;
+
+            # request_access_token stores the tokens in $nt AND returns them
+            my @access_tokens = $api->request_access_token(verifier => $pin);
+
+            mkpath( $config->{home} . '.maisha' );
+
+            # save the access tokens
+            store \@access_tokens, $datafile;
+        }
+    }
 
     $self->api($api);
     print "...building user cache for Twitter\n";
@@ -52,80 +99,67 @@ sub _build_users {
     $self->users(\%users);
 }
 
-sub api_update
-{
+sub api_update {
     my $self = shift;
     $self->api->update(@_);
 }
 
-sub api_user
-{
+sub api_user {
     my $self = shift;
     $self->api->show_user(@_);
 }
 
-sub api_user_timeline
-{
+sub api_user_timeline {
     my $self = shift;
     $self->api->user_timeline(@_);
 }
 
-sub api_friends
-{
+sub api_friends {
     my $self = shift;
     $self->api->friends();
 }
 
-sub api_friends_timeline
-{
+sub api_friends_timeline {
     my $self = shift;
     $self->api->friends_timeline();
 }
 
-sub api_public_timeline
-{
+sub api_public_timeline {
     my $self = shift;
     $self->api->public_timeline();
 }
 
-sub api_followers
-{
+sub api_followers {
     my $self = shift;
     $self->api->followers();
 }
 
-sub api_replies
-{
+sub api_replies {
     my $self = shift;
     $self->api->replies();
 }
 
-sub api_send_message
-{
+sub api_send_message {
     my $self = shift;
     $self->api->new_direct_message(@_);
 }
 
-sub api_direct_messages_to
-{
+sub api_direct_messages_to {
     my $self = shift;
     $self->api->direct_messages();
 }
 
-sub api_direct_messages_from
-{
+sub api_direct_messages_from {
     my $self = shift;
     $self->api->sent_direct_messages();
 }
 
-sub api_follow
-{
+sub api_follow {
     my $self = shift;
     $self->api->create_friend(@_);
 }
 
-sub api_unfollow
-{
+sub api_unfollow {
     my $self = shift;
     $self->api->destroy_friend(@_);
 }

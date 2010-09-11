@@ -3,7 +3,7 @@ package App::Maisha::Shell;
 use strict;
 use warnings;
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 #----------------------------------------------------------------------------
 
@@ -55,11 +55,9 @@ sub chars      { shift->_elem('chars',      @_) }
 
 
 sub connect {
-    my ($self,$plug,$user,$pass) = @_;
+    my ($self,$plug,$config) = @_;
 
     unless($plug) { warn "No plugin supplied\n";   return }
-    unless($user) { warn "No username supplied\n"; return }
-    unless($pass) { warn "No password supplied\n"; return }
 
     $self->_load_plugins    unless(%plugins);
     my $plugin = $self->_get_plugin($plug);
@@ -68,7 +66,7 @@ sub connect {
         return;
     }
 
-    my $status = $plugin->login($user,$pass);
+    my $status = $plugin->login($config);
     if(!$status) {
         warn "Login to '$plug' failed\n";
         return;

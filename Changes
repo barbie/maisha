@@ -1,6 +1,12 @@
 # Changes log for App-Maisha
 ============================
 
+0.14	current
+	- documentation fix for INI format example (thanks to Alan Haggai Alavi).
+	- rewrite to Twitter.pm to use OAuth mechanism for logging in.
+	- interface to plugins changed, now passes a config hash.
+	- config hash now saves the home directory.
+
 0.13	20/08/2009
 	- fixed requests with limits larger than 20.
 	- suppressing 'command ok' messages.

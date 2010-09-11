@@ -1,5 +1,5 @@
 {
     CONFIG      => {'order' => 'asc','tag' => '.'},
-    Twitter     => {'username' => 'yourlogin','password' => 'yourpassword'},
+#    Twitter     => {'test' => 1},
     Identica    => {'username' => 'yourlogin','password' => 'yourpassword'},
 }

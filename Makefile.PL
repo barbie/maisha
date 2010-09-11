@@ -5,13 +5,15 @@ WriteMakefile(
     PREREQ_PM           => {
         'Class::Accessor::Fast' => '0',
         'Config::Any'           => '0',
+        'File::HomeDir'         => '0',
+        'File::Path'            => '0',
         'Module::Pluggable'     => '2.7',
         'Net::Identica'         => '2.05',
         'Net::Twitter'          => '2.06',
+        'Storable'              => '0',
         'Term::Shell'           => '0',
         'Text::Wrap'            => '0',
 
-        'File::HomeDir'         => '0',     # used by maisha script
         'FindBin'               => '0',     # used by maisha script
         'Getopt::Long'          => '0',     # used by maisha script
         'Pod::Usage'            => '0',     # used by maisha script

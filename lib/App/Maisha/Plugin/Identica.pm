@@ -3,7 +3,7 @@ package App::Maisha::Plugin::Identica;
 use strict;
 use warnings;
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 #----------------------------------------------------------------------------
 # Library Modules
@@ -21,10 +21,14 @@ __PACKAGE__->mk_accessors($_) for qw(api users);
 # Public API
 
 sub login {
-    my ($self,$user,$pass) = @_;
+    my ($self,$config) = @_;
+    
+    unless($config->{username}) { warn "No username supplied\n"; return }
+    unless($config->{password}) { warn "No password supplied\n"; return }
+
     my $api = Net::Identica->new(
-        username    => $user,
-        password    => $pass,
+        username    => $config->{username},
+        password    => $config->{password},
         source      => $self->{source},
         useragent   => $self->{useragent},
         clientname  => $self->{clientname},

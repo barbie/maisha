@@ -3,7 +3,7 @@ package App::Maisha;
 use strict;
 use warnings;
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 #----------------------------------------------------------------------------
 
@@ -34,6 +34,8 @@ use base qw(Class::Accessor::Fast);
 use Carp qw(croak);
 use Config::Any;
 use App::Maisha::Shell;
+use File::Basename;
+use File::HomeDir;
 
 #----------------------------------------------------------------------------
 # Accessors
@@ -91,16 +93,18 @@ sub setup {
     $shell->chars( defined $config->{CONFIG}{chars}  ? $config->{CONFIG}{chars}  : 80);
     $shell->format(defined $config->{CONFIG}{format} ? $config->{CONFIG}{format} : '[%U] %M');
 
+    my $home = File::HomeDir->my_home();
+
     # connect to the available sites
     for my $plugin (keys %$config) {
         next    if($plugin eq 'CONFIG');
-        $self->shell->connect($plugin,$config->{$plugin}{username},$config->{$plugin}{password});
+        $config->{$plugin}{home} = $home;
+        $self->shell->connect($plugin,$config->{$plugin});
     }
 
     # in some environments 'Wide Character' warnings are emited where unicode
     # strings are seen in status messages. This suppresses them.
     binmode STDOUT, ":utf8";
-
 }
 
 sub run {
