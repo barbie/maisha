@@ -254,9 +254,11 @@ and provide a PIN (Personal Identification Number) to allow the application to
 retrieve access tokens.
 
 With this new method of authentication, the application will provide a URL,
-which the user needs to cut-n-paste into a browser. You will then need to login
-to the service, using your regular username/password. You will then be given a
-PIN, which should then be entered at the prompt on the command line.
+which the user needs to cut-n-paste into a browser to logging in to the 
+service, using your regular username/password, then 'Allow' Maisha to access 
+your account. This will then allow Maisha to post to your account. You will 
+then be given a PIN, which should then be entered at the prompt on the Maisha
+command line.
 
 Once you have completed authentication, the application will then store your 
 access tokens permanently under your profile on your computer. Then when you

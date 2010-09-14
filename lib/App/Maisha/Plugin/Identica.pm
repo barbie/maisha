@@ -10,7 +10,9 @@ our $VERSION = '0.14';
 
 use base qw(App::Maisha::Plugin::Base);
 use base qw(Class::Accessor::Fast);
-use Net::Identica;
+use File::Path;
+use Net::Twitter;
+use Storable;
 
 #----------------------------------------------------------------------------
 # Accessors
@@ -20,25 +22,62 @@ __PACKAGE__->mk_accessors($_) for qw(api users);
 #----------------------------------------------------------------------------
 # Public API
 
+#http://identi.ca/settings/oauthapps/show/185
+
+sub new {
+    my $class = shift;
+    my $self = {
+        consumer_key    => 'fb8163dcdb32e6c8e60734e961187553',
+        consumer_secret => '8251970fb08ea39a90f6b494e3a2aabc',
+    };
+
+    bless $self, $class;
+    return $self;
+}
+
 sub login {
     my ($self,$config) = @_;
-    
-    unless($config->{username}) { warn "No username supplied\n"; return }
-    unless($config->{password}) { warn "No password supplied\n"; return }
 
-    my $api = Net::Identica->new(
-        username    => $config->{username},
-        password    => $config->{password},
-        source      => $self->{source},
-        useragent   => $self->{useragent},
-        clientname  => $self->{clientname},
-        clientver   => $self->{clientver},
-        clienturl   => $self->{clienturl}
+    unless($config->{username}) { warn "No username supplied\n"; return }
+
+    my $api = Net::Twitter->new(
+        traits              => [qw/API::REST OAuth/],
+        consumer_key        => $self->{consumer_key},
+        consumer_secret     => $self->{consumer_secret},
+        identica            => 1,
+        ssl                 => 1
     );
 
     unless($api) {
         warn "Unable to establish connection to Identica API\n";
         return 0;
+    }
+
+    # for testing purposes we don't want to login
+    if(!$config->{test}) {
+        my $datafile = $config->{home} . '/.maisha/identica.dat';
+        my $access_tokens = eval { retrieve($datafile) } || {};
+
+        if ( $access_tokens && $access_tokens->{$config->{username}}) {
+            $api->access_token($access_tokens->{$config->{username}}->[0]);
+            $api->access_token_secret($access_tokens->{$config->{username}}->[1]);
+        }
+        else {
+            my $auth_url = $api->get_authorization_url;
+            print " Authorize this application at: $auth_url\nThen, enter the PIN# provided to continue: ";
+
+            my $pin = <STDIN>; # wait for input
+            chomp $pin;
+
+            # request_access_token stores the tokens in $nt AND returns them
+            my @access_tokens = $api->request_access_token(verifier => $pin);
+            $access_tokens->{$config->{username}} = \@access_tokens;
+
+            mkpath( $config->{home} . '/.maisha' );
+
+            # save the access tokens
+            store $access_tokens, $datafile;
+        }
     }
 
     $self->api($api);
@@ -182,6 +221,27 @@ The API methods are used to interface to with the Identica API.
 =item * api_direct_messages_from
 
 =back
+
+=head1 AUTHENTICATION
+
+As Twitter has now disabled Basic Authentication to access their API, to be 
+consistent Maisha now requires that access to both Twitter and Identica uses
+OAuth.
+
+With this new method of authentication, the application will provide a URL,
+which the user needs to cut-n-paste into a browser to logging in to the 
+service, using your regular username/password, then 'Allow' Maisha to access 
+your account. This will then allow Maisha to post to your account. You will 
+then be given a PIN, which should then be entered at the prompt on the Maisha
+command line.
+
+Once you have completed authentication, the application will then store your 
+access tokens permanently under your profile on your computer. Then when you
+next use the application it will retrieve these access tokens automatically and
+you will no longer need to register the application.
+
+For further information please see the Identica FAQ - 
+L<http://status.net/wiki/TwitterCompatibleAPI>
 
 =head1 SEE ALSO
 

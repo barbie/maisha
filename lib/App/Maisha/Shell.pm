@@ -640,13 +640,17 @@ sub _command {
     return  unless(defined $service);
 
     my $method = "api_$cmd";
-    my $ret    = $service->$method(@_);
+    my $ret
+    eval { $ret = $service->$method(@_) };
 
-    if ($ret) {
-        #print "$cmd ok\n";
-    } else {
+    if ($@) {
+        print "Command $cmd failed :( [$@]\n";
+    } elsif(!$ret) {
         print "Command $cmd failed :(\n";
+    } else {
+        #print "$cmd ok\n";
     }
+
     return $ret;
 }
 
@@ -660,15 +664,19 @@ sub _commands {
     for my $service (@$services) {
         next  unless(defined $service);
 
-        my $method = "api_$cmd";
-        my $ret    = $service->$method(@_);
         my $class  = ref($service);
         $class =~ s/^App::Maisha::Plugin:://;
 
-        if ($ret) {
-            print "[$class] $cmd ok\n";
-        } else {
+        my $method = "api_$cmd";
+        my $ret
+        eval { $ret = $service->$method(@_) };
+
+        if ($@) {
+            print "[$class] Command $cmd failed :( [$@]\n";
+        } elsif(!$ret) {
             print "[$class] Command $cmd failed :(\n";
+        } else {
+            print "[$class] $cmd ok\n";
         }
     }
 
