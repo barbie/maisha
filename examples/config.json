@@ -1,5 +1,5 @@
 {
   "CONFIG":  {"order": "asc","tag": "."},
-  "Twitter": {"username": "yourlogin","password": "yourpassword"},
-  "Identica":{"username": "yourlogin","password": "yourpassword"}
+  "Twitter": {"username": "yourlogin"},
+  "Identica":{"username": "yourlogin"}
 }

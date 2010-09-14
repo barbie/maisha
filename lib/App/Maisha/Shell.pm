@@ -3,7 +3,7 @@ package App::Maisha::Shell;
 use strict;
 use warnings;
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 #----------------------------------------------------------------------------
 
@@ -640,7 +640,7 @@ sub _command {
     return  unless(defined $service);
 
     my $method = "api_$cmd";
-    my $ret
+    my $ret;
     eval { $ret = $service->$method(@_) };
 
     if ($@) {
@@ -668,7 +668,7 @@ sub _commands {
         $class =~ s/^App::Maisha::Plugin:://;
 
         my $method = "api_$cmd";
-        my $ret
+        my $ret;
         eval { $ret = $service->$method(@_) };
 
         if ($@) {

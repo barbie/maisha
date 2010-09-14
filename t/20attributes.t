@@ -44,9 +44,9 @@ for my $k ( qw/
   SKIP: {
     ok( $obj->can($k), "$label can" )
 	or skip "'$k' attribute missing", 3;
-    is( $obj->$k(), undef, "$label has no default" );
-    is( $obj->$k(123), undef, "$label set" );
-    is( $obj->$k, 123, "$label get" );
+    eval { is( $obj->$k(), undef, "$label has no default" ) };
+    eval { is( $obj->$k(123), undef, "$label set" ) };
+    eval { is( $obj->$k, 123, "$label get" ) };
   };
 }
 

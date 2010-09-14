@@ -15,8 +15,8 @@ BEGIN {
 
     unless($nomock) {
         $mock = Test::MockObject->new();
-        $mock->fake_module( 'Net::Identica', 'update' => sub  { return 1; } );
-        $mock->fake_new( 'Net::Identica' );
+        $mock->fake_module( 'Net::Twitter', 'update' => sub  { return 1; },  get_authorization_url => sub { return 'http://127.0.0.1' } );
+        $mock->fake_new( 'Net::Twitter' );
 
         $mock->set_true(qw(
             update
@@ -30,6 +30,11 @@ BEGIN {
             sent_direct_messages
             create_friend
             destroy_friend
+
+            access_token
+            access_token_secret
+            get_authorization_url
+            request_access_token
         ));
 
         $mock->set_list('friends',   ());
@@ -44,7 +49,7 @@ SKIP: {
     ok( my $obj = App::Maisha::Plugin::Identica->new(), "got object" );
     isa_ok($obj,'App::Maisha::Plugin::Identica');
 
-    my $ret = $obj->login({username => 'blah', password => 'blah'});
+    my $ret = $obj->login({ username => 'test', home => '.', test => 1 });
     is($ret, 1, '.. login done');
 
     my $api = $obj->api();

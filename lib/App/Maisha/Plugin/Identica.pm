@@ -3,7 +3,7 @@ package App::Maisha::Plugin::Identica;
 use strict;
 use warnings;
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 #----------------------------------------------------------------------------
 # Library Modules
@@ -81,8 +81,12 @@ sub login {
     }
 
     $self->api($api);
-    print "...building user cache for Identica\n";
-    $self->_build_users();
+
+    if(!$config->{test}) {
+        print "...building user cache for Identica\n";
+        $self->_build_users();
+    }
+
     return 1;
 }
 

@@ -4,6 +4,8 @@
 0.15	current
 	- added OAuth support to Identica access.
 	- added better protection for failing commands.
+	- removed password from example settings.
+	- updated tests.
 
 0.14	11/09/2010
 	- documentation fix for INI format example (thanks to Alan Haggai Alavi).
