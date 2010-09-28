@@ -17,8 +17,7 @@ requires:
   FindBin:                  0
   Getopt::Long:             0
   Module::Pluggable:        2.7
-  Net::Identica:            3.13008
-  Net::Twitter:             3.13008
+  Net::Twitter:             3.13009
   Pod::Usage:               0
   Storable:                 0
   Term::Shell:              0

@@ -1,11 +1,12 @@
 # Changes log for App-Maisha
 ============================
 
-0.15	current
+0.15	26/09/2010
 	- added OAuth support to Identica access.
 	- added better protection for failing commands.
 	- removed password from example settings.
 	- updated tests.
+	- Now requires Net-Twitter-3.13009
 
 0.14	11/09/2010
 	- documentation fix for INI format example (thanks to Alan Haggai Alavi).
