@@ -16,10 +16,13 @@ WriteMakefile(
     PREREQ_PM           => {
 
         # prereqs
+        'Carp'                  => '0',
         'Class::Accessor::Fast' => '0',
         'Config::Any'           => '0',
+        'File::Basename'        => '0',
         'File::HomeDir'         => '0',
         'File::Path'            => '0',
+        'IO::File'              => '0',
         'Module::Pluggable'     => '2.7',
         'Net::Twitter'          => '3.13009',
         'Storable'              => '0',
@@ -32,8 +35,7 @@ WriteMakefile(
         'Pod::Usage'            => '0',     
 
         # build/test prereqs
-        'Test::More'            => '0.70',
-        'IO::File'              => '0'
+        'Test::More'            => '0.70'
 
     },
 

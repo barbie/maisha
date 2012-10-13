@@ -11,12 +11,15 @@ installdirs:            site
 
 requires:
   perl:                     5.006
+  Carp:                     0
   Class::Accessor::Fast:    0
   Config::Any:              0
+  File::Basename:           0
   File::HomeDir:            0
   File::Path:               0
   FindBin:                  0
   Getopt::Long:             0
+  IO::File:                 0
   Module::Pluggable:        2.7
   Net::Twitter:             3.13009
   Pod::Usage:               0
@@ -30,7 +33,6 @@ recommends:
   Test::Pod:                1.00
   Test::Pod::Coverage:      0.08
 build_requires:
-  IO::File:                 0
   Test::More:               0.70
 
 provides:

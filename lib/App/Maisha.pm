@@ -79,6 +79,9 @@ sub setup {
     my $config = $self->config;
     my $shell  = $self->shell(App::Maisha::Shell->new);
 
+    my $debug   = $config->{CONFIG}{debug}   || 0;
+    my $history = $config->{CONFIG}{history} || '';
+
     my $tag = $config->{CONFIG}{tag};
     $tag ||= '[from maisha]';
     $tag   = '' if($tag eq '.');
@@ -87,6 +90,9 @@ sub setup {
     $prompt ||= 'maisha>';
     $prompt =~ s/\s*$/ /;
 
+
+    $shell->debug($debug);
+    $shell->history($history);
     $shell->prompt_str($prompt);
     $shell->tag_str($tag);
     $shell->pager( defined $config->{CONFIG}{pager}  ? $config->{CONFIG}{pager}  : 1 );

@@ -27,6 +27,10 @@ websites and services, such as Identica and Twitter.
 # Library Modules
 
 use base qw(Term::Shell);
+
+use File::Basename;
+use File::Path;
+use IO::File;
 use Module::Pluggable   instantiate => 'new', search_path => ['App::Maisha::Plugin'];
 use Text::Wrap;
 
@@ -40,19 +44,24 @@ my %plugins;    # contains all available plugins
 #----------------------------------------------------------------------------
 # Accessors
 
-sub networks   { shift->_elem('networks',   @_) }
-sub prompt_str { shift->_elem('prompt_str', @_) }
-sub tag_str    { shift->_elem('tag_str',    @_) }
-sub order      { shift->_elem('order',      @_) }
-sub limit      { shift->_elem('limit',      @_) }
-sub services   { shift->_elem('services',   @_) }
-sub pager      { shift->_elem('pager',      @_) }
-sub format     { shift->_elem('format',     @_) }
-sub chars      { shift->_elem('chars',      @_) }
+sub networks   { shift->_elem('networks',       @_) }
+sub prompt_str { shift->_elem('prompt_str',     @_) }
+sub tag_str    { shift->_elem('tag_str',        @_) }
+sub order      { shift->_elem('order',          @_) }
+sub limit      { shift->_elem('limit',          @_) }
+sub services   { shift->_elem('services',       @_) }
+sub pager      { shift->_elem('pager',          @_) }
+sub format     { shift->_elem('format',         @_) }
+sub chars      { shift->_elem('chars',          @_) }
+sub debug      { shift->_elem('debug',          @_) }
+sub history    { shift->_elem('historyfile',    @_) }
 
 #----------------------------------------------------------------------------
 # Public API
 
+#
+# Connect/Disconnect
+#
 
 sub connect {
     my ($self,$plug,$config) = @_;
@@ -77,10 +86,6 @@ sub connect {
     $self->services($services);
     $self->_reset_networks;
 }
-
-#
-# Connect/Disconnect
-#
 
 *run_connect = \&connect;
 sub smry_connect { "connect to a service" }
@@ -538,6 +543,35 @@ sub run_version {
 
 
 #
+# Debugging
+#
+
+sub smry_debug { "turn on/off debugging" }
+sub help_debug {
+    <<'END';
+Some commands may return unexpected results, more verbose output can be 
+returned debugging is turned on. Set 'debug on' or 'debug off' to turn the
+debugging functionality on or off respectively.
+END
+}
+sub run_debug {
+    my ($self,$state) = @_;
+
+    if(!$state) {
+        print "Please use 'on' or 'off' with debug command\n\n";
+    } elsif($state eq 'on') {
+        $self->debug(1);
+        print "Debugging is ON\n\n";
+    } elsif($state eq 'off') {
+        $self->debug(0);
+        print "Debugging is OFF\n\n";
+    } else {
+        print "Please use 'on' or 'off' with debug command\n\n";
+    }
+};
+
+
+#
 # Quit/Exit
 #
 
@@ -559,6 +593,31 @@ sub run_quit {
 sub postcmd {
     my ($self, $handler, $cmd, $args) = @_;
     print $self->networks   unless ($handler && ($$handler =~ /^comp_/));
+}
+
+sub preloop {
+    my $self = shift;
+    my $file = $self->history;
+    if($file && -f $file) {
+        my $fh = IO::File->new($file,'r') or return;
+        while(<$fh>) {
+            s/\s+$//;
+            $self->term->addhistory($_);
+            push @{$self->{history}}, $_;
+        }
+    }
+}
+
+sub postloop {
+    my $self = shift;
+    if(my $file = $self->history) {
+        mkpath(dirname($file));
+        my $fh = IO::File->new($file,'w+') or return;
+        splice( @{$self->{history}}, 0, (scalar(@{$self->{history}}) - 100))
+            if(@{$self->{history}} > 100);
+        print $fh join("\n", @{$self->{history}});
+        $fh->close;
+    }
 }
 
 #----------------------------------------------------------------------------
@@ -632,6 +691,7 @@ sub _run_timeline {
 sub _command {
     my $self = shift;
     my $cmd  = shift;
+    push @{$self->{history}}, join(' ',@_);
 
     my $services = $self->services;
     return  unless(defined $services && @$services);
@@ -644,7 +704,7 @@ sub _command {
     eval { $ret = $service->$method(@_) };
 
     if ($@) {
-        print "Command $cmd failed :( [$@]\n";
+        print "Command $cmd failed :(" . ($self->debug ? " [$@]" : '') . "\n";
     } elsif(!$ret) {
         print "Command $cmd failed :(\n";
     } else {
@@ -840,6 +900,14 @@ terminal window. Unfortunately there isn't currently a detection method for
 knowing the exact screen width being used. As such you can specify a width for
 the wrapper to use to ensure the messages are correctly line wrapped. The
 default setting is 80.
+
+=item * debug
+
+Boolean setting for debugging messages.
+
+=item * history
+
+Provides the history file, if available.
 
 =back
 
@@ -1137,6 +1205,25 @@ The quit methods provide the handlers for the 'version' command.
 
 =back
 
+=head2 Debug Methods
+
+The debug methods provide more verbose error mesages if commands fail.
+
+The debug command has two optional parameters:
+
+  maisha> debug [on|off]
+
+  maisha> debug on
+  maisha> debug off
+
+=over 4
+
+=item * run_debug
+=item * help_debug
+=item * smry_debug
+
+=back
+
 =head2 Quit Methods
 
 The quit methods provide the handlers for the 'quit' command. Note that both
@@ -1154,13 +1241,15 @@ The quit methods provide the handlers for the 'quit' command. Note that both
 
 =back
 
-=head2 Post Command Methods
+=head2 Internal Shell Methods
 
-Used to display the current networks list above the command line.
+Used internally to interface with the underlying shell application.
 
 =over 4
 
 =item * postcmd
+=item * preloop
+=item * postloop
 
 =back
 

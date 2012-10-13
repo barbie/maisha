@@ -10,6 +10,8 @@
         - META tests no longer require specific versions.
         - change file dates changed to meet W3CDTF standards.
         - implemented Perl::Critic suggestions.
+	- added debug feature for more verbose error messages.
+	- added command history storage functionality.
 
 0.15    2010-09-26
         - added OAuth support to Identica access.
