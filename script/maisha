@@ -1,7 +1,5 @@
-#!/usr/bin/perl
-
+#!/usr/bin/perl -w
 use strict;
-use warnings;
 
 #----------------------------------------------------------------------------
 # Library Modules
@@ -24,7 +22,7 @@ use App::Maisha;
     $config = do {
         my $home = File::HomeDir->my_home;
         my $file;
-        foreach my $suffix qw(ini yml yaml) {
+        for my $suffix (qw(ini yml yaml)) {
             my $test = "$home/.maisha.$suffix";
             if (-f $test) {
                 $file = $test;
