@@ -37,16 +37,19 @@ sub new {
 
 sub login {
     my ($self,$config) = @_;
+    my $api;
 
     unless($config->{username}) { warn "No username supplied\n"; return }
 
-    my $api = Net::Twitter->new(
-        traits              => [qw/API::REST OAuth/],
-        consumer_key        => $self->{consumer_key},
-        consumer_secret     => $self->{consumer_secret},
-        identica            => 1,
-        ssl                 => 1
-    );
+    eval {
+        $api = Net::Twitter->new(
+            traits              => [qw/API::REST OAuth/],
+            consumer_key        => $self->{consumer_key},
+            consumer_secret     => $self->{consumer_secret},
+            identica            => 1,
+            ssl                 => 1
+        );
+    };
 
     unless($api) {
         warn "Unable to establish connection to Identica API\n";
@@ -55,28 +58,35 @@ sub login {
 
     # for testing purposes we don't want to login
     if(!$config->{test}) {
-        my $datafile = $config->{home} . '/.maisha/identica.dat';
-        my $access_tokens = eval { retrieve($datafile) } || {};
+        eval {
+            my $datafile = $config->{home} . '/.maisha/identica.dat';
+            my $access_tokens = eval { retrieve($datafile) } || {};
 
-        if ( $access_tokens && $access_tokens->{$config->{username}}) {
-            $api->access_token($access_tokens->{$config->{username}}->[0]);
-            $api->access_token_secret($access_tokens->{$config->{username}}->[1]);
-        }
-        else {
-            my $auth_url = $api->get_authorization_url;
-            print " Authorize this application at: $auth_url\nThen, enter the PIN# provided to continue: ";
+            if ( $access_tokens && $access_tokens->{$config->{username}}) {
+                $api->access_token($access_tokens->{$config->{username}}->[0]);
+                $api->access_token_secret($access_tokens->{$config->{username}}->[1]);
+            }
+            else {
+                my $auth_url = $api->get_authorization_url;
+                print " Authorize this application at: $auth_url\nThen, enter the PIN# provided to continue: ";
 
-            my $pin = <STDIN>; # wait for input
-            chomp $pin;
+                my $pin = <STDIN>; # wait for input
+                chomp $pin;
 
-            # request_access_token stores the tokens in $nt AND returns them
-            my @access_tokens = $api->request_access_token(verifier => $pin);
-            $access_tokens->{$config->{username}} = \@access_tokens;
+                # request_access_token stores the tokens in $nt AND returns them
+                my @access_tokens = $api->request_access_token(verifier => $pin);
+                $access_tokens->{$config->{username}} = \@access_tokens;
 
-            mkpath( $config->{home} . '/.maisha' );
+                mkpath( $config->{home} . '/.maisha' );
 
-            # save the access tokens
-            store $access_tokens, $datafile;
+                # save the access tokens
+                store $access_tokens, $datafile;
+            }
+        };
+
+        if($@) {
+            warn "Unable to login to Identica\n";
+            return 0;
         }
     }
 
@@ -94,10 +104,12 @@ sub _build_users {
     my $self = shift;
     my %users;
 
-    my $f = $self->api->friends();
-    if($f && @$f)   { for(@$f) { next unless($_); $users{$_->{screen_name}} = 1 } }
-    $f = $self->api->followers();
-    if($f && @$f)   { for(@$f) { next unless($_); $users{$_->{screen_name}} = 1 } }
+    eval {
+        my $f = $self->api->friends();
+        if($f && @$f)   { for(@$f) { next unless($_); $users{$_->{screen_name}} = 1 } }
+        $f = $self->api->followers();
+        if($f && @$f)   { for(@$f) { next unless($_); $users{$_->{screen_name}} = 1 } }
+    };
 
     $self->users(\%users);
 }
