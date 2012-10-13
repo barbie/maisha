@@ -41,6 +41,12 @@ $Text::Wrap::columns = 80;
 
 my %plugins;    # contains all available plugins
 
+my %months = (
+    'Jan' => 1,     'Feb' => 2,     'Mar' => 3,     'Apr' => 4,
+    'May' => 5,     'Jun' => 6,     'Jul' => 7,     'Aug' => 8,
+    'Sep' => 9,     'Oct' => 10,    'Nov' => 11,    'Dec' => 12,
+);
+
 #----------------------------------------------------------------------------
 # Accessors
 
@@ -796,6 +802,11 @@ sub _format_message {
     $network =~ s!^.*?\[([^\]]+)\].*!$1!s;
 
     my $timestamp = $mess->{created_at};
+    my (@dt) = $timestamp =~ /\w+\s+(\w+)\s+(\d+)\s+([\d:]+)\s+\S+\s+(\d+)/; # Sat Oct 13 19:01:19 +0000 2012
+    my $datetime = sprintf "%02d/%02d/%04d %s", $dt[1], $months{$dt[0]}, $dt[3], $dt[2];
+    my $date = sprintf "%02d/%02d/%04d", $dt[1], $months{$dt[0]}, $dt[3];
+    my $time = $dt[2];
+
     if($who) {
         $user = $mess->{$who}{screen_name};
         $text = $mess->{text};
@@ -809,6 +820,9 @@ sub _format_message {
     $format =~ s!\%U!$user!g;
     $format =~ s!\%M!$text!g;
     $format =~ s!\%T!$timestamp!g;
+    $format =~ s!\%D!$datetime!g;
+    $format =~ s!\%t!$time!g;
+    $format =~ s!\%d!$date!g;
     $format =~ s!\%N!$network!g;
     return $format;
 }
@@ -915,7 +929,10 @@ as:
 
   %U - username or screen name
   %M - status message
-  %T - timestamp
+  %T - timestamp (e.g. Sat Oct 13 19:29:17 +0000 2012)
+  %D - datetime (e.g. 13/10/2012 19:29:17)
+  %d - date only (e.g. 13/10/2012)
+  %t - time only (e.g. 19:29:17)
   %N - network
 
 =item * chars
