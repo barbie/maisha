@@ -1,7 +1,7 @@
 {
     "name": "App-Maisha",
-    "version": "0.15",
-    "abstract": "A command line social micro-blog networking tool.",
+    "version": "0.16",
+    "abstract": "A command line social micro-blog networking tool",
     "author": [
         "Barbie (BARBIE) <barbie@cpan.org>"
     ],
@@ -26,19 +26,20 @@
     "prereqs" : {
         "test" : {
             "requires": {
+                "IO::File": "0",
                 "Test::More": "0.70"
             },
             "recommends": {
-                "IO::File": "0",
+                "Test::CPAN::Meta": "0",
+                "Test::CPAN::Meta::JSON": "0",
                 "Test::Distribution": "2.00",
                 "Test::Pod": "1.00",
-                "Test::Pod::Coverage": "0.08",
-                "Test::CPAN::Meta": "0.13",
-                "Test::JSON::Meta": "0.08"
+                "Test::Pod::Coverage": "0.08"
             }
         },
         "runtime" : {
             "requires" : {
+                "perl": "5.006",
                 "Class::Accessor::Fast": "0",
                 "Carp": "0",
                 "Config::Any": "0",
@@ -60,27 +61,27 @@
     "provides": {
         "App::Maisha": {
             "file": "ib/App/Maisha.pm",
-            "version": "0.15"
+            "version": "0.16"
         },
         "App::Maisha::Shell": {
             "file": "lib/App/Maisha/Shell.pm",
-            "version": "0.15"
+            "version": "0.16"
         },
         "App::Maisha::Plugin::Base": {
             "file": "lib/App/Maisha/Plugin/Base.pm",
-            "version": "0.15"
+            "version": "0.16"
         },
         "App::Maisha::Plugin::Identica": {
             "file": "lib/App/Maisha/Plugin/Identica.pm",
-            "version": "0.15"
+            "version": "0.16"
         },
         "App::Maisha::Plugin::Test": {
             "file": "lib/App/Maisha/Plugin/Test.pm",
-            "version": "0.15"
+            "version": "0.16"
         },
         "App::Maisha::Plugin::Twitter": {
             "file": "lib/App/Maisha/Plugin/Twitter.pm",
-            "version": "0.15"
+            "version": "0.16"
         }
     },
     "no_index": {

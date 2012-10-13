@@ -1,8 +1,21 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use 5.006;
+
 use ExtUtils::MakeMaker;
+
 WriteMakefile(
+    AUTHOR              => 'Barbie <barbie@cpan.org>',
     NAME                => 'App::Maisha',
     VERSION_FROM        => 'lib/App/Maisha.pm',
+    ABSTRACT            => 'A command line social micro-blog networking tool',
+    NO_META             => 1,
+
     PREREQ_PM           => {
+
+        # prereqs
         'Class::Accessor::Fast' => '0',
         'Config::Any'           => '0',
         'File::HomeDir'         => '0',
@@ -13,16 +26,16 @@ WriteMakefile(
         'Term::Shell'           => '0',
         'Text::Wrap'            => '0',
 
-        'FindBin'               => '0',     # used by maisha script
-        'Getopt::Long'          => '0',     # used by maisha script
-        'Pod::Usage'            => '0',     # used by maisha script
+        # used by maisha script
+        'FindBin'               => '0',
+        'Getopt::Long'          => '0',
+        'Pod::Usage'            => '0',     
 
-        'Test::More'            => '0.70',  # testing only
+        # build/test prereqs
+        'Test::More'            => '0.70',
+        'IO::File'              => '0'
+
     },
-	NO_META			    => 1,
-    EXE_FILES           => ['script/maisha'],
 
-    ($] >= 5.005 ?
-        (ABSTRACT       => 'A command line social micro-blog networking tool.',
-         AUTHOR         => 'Barbie <barbie@cpan.org>') : ()),
+    EXE_FILES           => ['script/maisha']
 );

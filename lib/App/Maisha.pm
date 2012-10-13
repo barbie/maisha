@@ -3,7 +3,7 @@ package App::Maisha;
 use strict;
 use warnings;
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 #----------------------------------------------------------------------------
 
@@ -106,7 +106,7 @@ sub setup {
 
     # in some environments 'Wide Character' warnings are emited where unicode
     # strings are seen in status messages. This suppresses them.
-    binmode STDOUT, ":utf8";
+    binmode STDOUT, ":encoding(UTF-8)";
 }
 
 sub run {
