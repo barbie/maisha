@@ -12,5 +12,3 @@ BEGIN
     use_ok("App::Maisha::Plugin::Test");
     use_ok("App::Maisha::Plugin::Twitter");
 }
-
-1;

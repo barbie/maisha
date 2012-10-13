@@ -47,4 +47,3 @@ for my $k ( qw/
     eval { is( $obj->$k, 123, "$label get" ) };
   };
 }
-
