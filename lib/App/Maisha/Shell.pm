@@ -611,7 +611,11 @@ sub run_quit {
 sub postcmd {
     my ($self, $handler, $cmd, $args) = @_;
     #print "$$handler - $$cmd\n" if($self->debug);
-    print $self->networks   unless ($handler && ($$handler =~ /^(comp|help|smry)_/));
+    return  if($handler && $$handler =~ /^(comp|help|smry)_/);
+    return  if($cmd     && $$cmd     =~ /^(q|quit)$/);
+
+    push @{$self->{history}}, $self->line;
+    print $self->networks;
 }
 
 sub preloop {
@@ -621,6 +625,7 @@ sub preloop {
         my $fh = IO::File->new($file,'r') or return;
         while(<$fh>) {
             s/\s+$//;
+            next    unless($_);
             $self->term->addhistory($_);
             push @{$self->{history}}, $_;
         }
@@ -630,12 +635,14 @@ sub preloop {
 sub postloop {
     my $self = shift;
     if(my $file = $self->history) {
-        mkpath(dirname($file));
-        my $fh = IO::File->new($file,'w+') or return;
-        splice( @{$self->{history}}, 0, (scalar(@{$self->{history}}) - 100))
-            if(@{$self->{history}} > 100);
-        print $fh join("\n", @{$self->{history}});
-        $fh->close;
+        my @history = grep { $_ && $_ !~ /^(q|quit)$/ } @{$self->{history}};
+        if(@history) {
+            mkpath(dirname($file));
+            my $fh = IO::File->new($file,'w+') or return;
+            splice( @history, 0, (scalar(@history) - 100))  if(@history > 100);
+            print $fh join("\n", @history);
+            $fh->close;
+        }
     }
 }
 
@@ -710,7 +717,6 @@ sub _run_timeline {
 sub _command {
     my $self = shift;
     my $cmd  = shift;
-    push @{$self->{history}}, $self->line;
 
     my $services = $self->services;
     return  unless(defined $services && @$services);
@@ -736,7 +742,6 @@ sub _command {
 sub _commands {
     my $self = shift;
     my $cmd  = shift;
-    push @{$self->{history}}, $self->line;
 
     my $services = $self->services;
     return  unless(defined $services && @$services);
