@@ -1,6 +1,10 @@
 # Changes log for App-Maisha
 ============================
 
+0.16	current
+	- spelling fix. (thanks to Florian Schlichting & Gregor Herrmann).
+	- added =encoding to POD.
+
 0.15	26/09/2010
 	- added OAuth support to Identica access.
 	- added better protection for failing commands.

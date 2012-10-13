@@ -7,6 +7,8 @@ our $VERSION = '0.15';
 
 #----------------------------------------------------------------------------
 
+=encoding utf8
+
 =head1 NAME
 
 App::Maisha - A command line social micro-blog networking tool.
