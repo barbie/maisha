@@ -1,7 +1,5 @@
-#!perl
-
+#!/usr/bin/perl -w
 use strict;
-use warnings;
 
 use Test::More tests => (2 + 29);
 use App::Maisha::Shell;
