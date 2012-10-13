@@ -60,7 +60,7 @@
 
     "provides": {
         "App::Maisha": {
-            "file": "ib/App/Maisha.pm",
+            "file": "lib/App/Maisha.pm",
             "version": "0.16"
         },
         "App::Maisha::Shell": {
