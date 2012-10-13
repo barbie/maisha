@@ -12,9 +12,9 @@ sub new {
     my $class = shift;
     my $self = {
         source      => 'maisha',
-        useragent   => 'Maisha/0.01 (Perl)',
+        useragent   => 'Maisha/0.16 (Perl)',
         clientname  => 'Maisha',
-        clientver   => '0.01',
+        clientver   => '0.16',
         clienturl   => 'http://maisha.grango.org'
     };
 
