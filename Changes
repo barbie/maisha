@@ -12,6 +12,8 @@
         - implemented Perl::Critic suggestions.
 	- added debug feature for more verbose error messages.
 	- added command history storage functionality.
+	- fixed repeated network lines with help command.
+	- added initial lines to help messages.
 
 0.15    2010-09-26
         - added OAuth support to Identica access.

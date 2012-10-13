@@ -91,6 +91,7 @@ sub connect {
 sub smry_connect { "connect to a service" }
 sub help_connect {
     <<'END';
+
 Connects to a named service. Requires the name of the service, together with
 the username and password to access the service.
 END
@@ -110,6 +111,7 @@ sub run_disconnect {
 sub smry_disconnect { "disconnect from a service" }
 sub help_disconnect {
     <<'END';
+
 Disconnects from the named service.
 END
 }
@@ -134,6 +136,7 @@ sub run_use {
 sub smry_use { "set primary service" }
 sub help_use {
     <<'END';
+
 Set the primary service for message list commands.
 END
 }
@@ -158,6 +161,7 @@ sub run_followers {
 sub smry_followers { "display followers' status" }
 sub help_followers {
     <<'END';
+
 Displays the most recent status messages from each of your followers.
 END
 }
@@ -174,6 +178,7 @@ sub run_friends {
 sub smry_friends { "display friends' status" }
 sub help_friends {
     <<'END';
+
 Displays the most recent status messages from each of your friends.
 END
 }
@@ -212,6 +217,7 @@ sub run_user {
 sub smry_user { "display a user profile" }
 sub help_user {
     <<'END';
+
 Displays a user profile.
 END
 }
@@ -246,6 +252,7 @@ sub run_follow {
 sub smry_follow { "follow a named user" }
 sub help_follow {
     <<'END';
+
 Sends a follow request to the name user. If status updates are not protected
 you can start seeing that user's updates immediately. Otherwise you will have
 to wait until the user accepts your request.
@@ -268,6 +275,7 @@ sub run_unfollow {
 sub smry_unfollow { "unfollow a named user" }
 sub help_unfollow {
     <<'END';
+
 Allows you to unfollow a user.
 END
 }
@@ -285,6 +293,7 @@ sub run_friends_timeline {
 sub smry_friends_timeline { "display friends' status as a timeline" }
 sub help_friends_timeline {
     <<'END';
+
 Displays the most recent status messages within your friends timeline.
 END
 }
@@ -306,6 +315,7 @@ sub run_public_timeline {
 sub smry_public_timeline { "display public status as a timeline" }
 sub help_public_timeline {
     <<'END';
+
 Displays the most recent status messages within the public timeline.
 END
 }
@@ -335,6 +345,7 @@ sub run_user_timeline {
 sub smry_user_timeline { "display named user statuses as a timeline" }
 sub help_user_timeline {
     <<'END';
+
 Displays the most recent status messages for a specified user.
 END
 }
@@ -358,6 +369,7 @@ sub run_replies {
 sub smry_replies { "display reply messages that refer to you" }
 sub help_replies {
     <<'END';
+
 Displays the most recent reply messages that refer to you.
 END
 }
@@ -391,6 +403,7 @@ sub run_direct_messages {
 sub smry_direct_messages { "display direct messages that have been sent to you" }
 sub help_direct_messages {
     <<'END';
+
 Displays the direct messages that have been sent to you.
 END
 }
@@ -434,6 +447,7 @@ sub run_send_message {
 sub smry_send_message { "send a direct message" }
 sub help_send_message {
     <<'END';
+
 Posts a message (upto 140 characters), to a named user.
 END
 }
@@ -481,6 +495,7 @@ sub run_update {
 sub smry_update { "post a message" }
 sub help_update {
     <<'END';
+
 Posts a message (upto 140 characters).
 END
 }
@@ -534,6 +549,7 @@ ABOUT
 sub smry_version { "display the current version of maisha" }
 sub help_version {
     <<'END';
+
 Displays the current version of maisha.
 END
 }
@@ -549,9 +565,10 @@ sub run_version {
 sub smry_debug { "turn on/off debugging" }
 sub help_debug {
     <<'END';
-Some commands may return unexpected results, more verbose output can be 
-returned debugging is turned on. Set 'debug on' or 'debug off' to turn the
-debugging functionality on or off respectively.
+
+Some commands may return unexpected results. More verbose output can be 
+returned when debugging is turned on. Set 'debug on' or 'debug off' to 
+turn the debugging functionality on or off respectively.
 END
 }
 sub run_debug {
@@ -578,6 +595,7 @@ sub run_debug {
 sub smry_quit { "alias to exit" }
 sub help_quit {
     <<'END';
+
 Exits the program.
 END
 }
@@ -592,7 +610,8 @@ sub run_quit {
 
 sub postcmd {
     my ($self, $handler, $cmd, $args) = @_;
-    print $self->networks   unless ($handler && ($$handler =~ /^comp_/));
+    #print "$$handler - $$cmd\n" if($self->debug);
+    print $self->networks   unless ($handler && ($$handler =~ /^(comp|help|smry)_/));
 }
 
 sub preloop {
@@ -691,7 +710,7 @@ sub _run_timeline {
 sub _command {
     my $self = shift;
     my $cmd  = shift;
-    push @{$self->{history}}, join(' ',@_);
+    push @{$self->{history}}, $self->line;
 
     my $services = $self->services;
     return  unless(defined $services && @$services);
@@ -717,6 +736,7 @@ sub _command {
 sub _commands {
     my $self = shift;
     my $cmd  = shift;
+    push @{$self->{history}}, $self->line;
 
     my $services = $self->services;
     return  unless(defined $services && @$services);
