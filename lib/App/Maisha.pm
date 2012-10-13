@@ -71,6 +71,10 @@ sub load_config {
     croak("Could not load configuration file")  if(!$config);
     croak("Maisha expectes a config file that can be decoded to a HASH")    if(ref $config ne 'HASH');
 
+    # some systems use a broken pager, so force the internal parser to be used
+    $self->{pager} = $ENV{PAGER};
+    $ENV{PAGER} = '';
+
     return $config;
 }
 
@@ -120,6 +124,8 @@ sub run {
     my $shell = $self->shell;
     $shell->postcmd();
     $shell->cmdloop();
+
+    $ENV{PAGER} = $self->{pager};
 }
 
 1;
