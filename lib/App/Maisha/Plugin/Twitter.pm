@@ -74,8 +74,7 @@ sub login {
             if ( $access_tokens && $access_tokens->{$config->{username}}) {
                 $api->access_token($access_tokens->{$config->{username}}->[0]);
                 $api->access_token_secret($access_tokens->{$config->{username}}->[1]);
-            }
-            else {
+            } else {
                 my $auth_url = $api->get_authorization_url;
                 print " Authorize this application at: $auth_url\nThen, enter the PIN# provided to continue: ";
 
@@ -140,12 +139,12 @@ sub api_user_timeline {
 
 sub api_friends {
     my $self = shift;
-    $self->api->friends();
+    $self->api->following();
 }
 
 sub api_friends_timeline {
     my $self = shift;
-    $self->api->friends_timeline();
+    $self->api->following_timeline();
 }
 
 sub api_public_timeline {
@@ -156,6 +155,9 @@ sub api_public_timeline {
 sub api_followers {
     my $self = shift;
     $self->api->followers();
+
+    # below is meant to be the same as the above, but it isn't :(
+    #$self->api->lookup_users( { user_id => $self->api->followers_ids() } );
 }
 
 sub api_replies {
