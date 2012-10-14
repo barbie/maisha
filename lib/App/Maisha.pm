@@ -166,7 +166,9 @@ Starts the command loop shell, and awaits your command.
 =over 4
 
 =item * Main Site: L<http://maisha.grango.org>
+
 =item * Git Repo:  L<http://github.com/barbie/maisha/tree/master>
+
 =item * RT Queue:  L<RT: http://rt.cpan.org/Public/Dist/Display.html?Name=App-Maisha>
 
 =back
