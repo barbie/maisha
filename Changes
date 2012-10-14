@@ -4,6 +4,9 @@
 0.18    2012-10-14
         - set permissions on secret files (thanks to Colin Newell).
         - added Search API.
+        - fixed timeline/list pagination and limits.
+        - added reauthorize functionality to allow for the higher permissions
+          Maisha needs to access direct messages.
 
 0.17    2012-10-14
         - POD updates ... never liked how POD forces double newlines for

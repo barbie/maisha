@@ -72,8 +72,19 @@ sub login {
                 my $pin = <STDIN>; # wait for input
                 chomp $pin;
 
+                unless($pin) {
+                    warn "No PIN provided, Maisha will not be able to access Identica account until authorized to do so\n";
+                    return 0;
+                }
+
                 # request_access_token stores the tokens in $nt AND returns them
-                my @access_tokens = $api->request_access_token(verifier => $pin);
+                my $access_tokens = {};
+                my @access_tokens;
+                eval { @access_tokens = $api->request_access_token(verifier => $pin) };
+                unless(@access_tokens) {
+                    warn "Invalid PIN provided, Maisha will not be able to access your Identica account until authorized to do so\n";
+                    return 0;
+                }
                 $access_tokens->{$config->{username}} = \@access_tokens;
 
                 mkpath( $config->{home} . '/.maisha' );
@@ -114,6 +125,54 @@ sub _build_users {
     $self->users(\%users);
 }
 
+sub api_reauthorize {
+    my $self    = shift;
+    my $config  = $self->config;
+    my $api     = $self->api;
+
+    # for testing purposes we don't want to login
+    if(!$config->{test}) {
+        eval {
+            my $datafile = $config->{home} . '/.maisha/identica.dat';
+
+            my $auth_url = $api->get_authorization_url;
+            print "Please re-authorize this application at: $auth_url\nThen, enter the PIN# provided to continue: ";
+
+            my $pin = <STDIN>; # wait for input
+            chomp $pin;
+
+            unless($pin) {
+                warn "No PIN provided, Maisha will not be able to access direct messages until reauthorization is completed\n";
+                return 0;
+            }
+
+            # request_access_token stores the tokens in $nt AND returns them
+            my $access_tokens = {};
+            my @access_tokens;
+            eval { @access_tokens = $api->request_access_token(verifier => $pin) };
+            unless(@access_tokens) {
+                warn "Invalid PIN provided, Maisha will not be able to access direct messages until reauthorization is completed\n";
+                return 0;
+            }
+            $access_tokens->{$config->{username}} = \@access_tokens;
+
+            unlink $datafile;
+            mkpath( $config->{home} . '/.maisha' );
+
+            # save the access tokens
+            store $access_tokens, $datafile;
+            chmod 0640, $datafile;  # make sure it has reasonable permissions
+        };
+
+        if($@) {
+            warn "Unable to login to Identica\n";
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
 sub api_user {
     my $self = shift;
     $self->api->show_user(@_);
@@ -126,22 +185,22 @@ sub api_user_timeline {
 
 sub api_friends {
     my $self = shift;
-    $self->api->following();
+    $self->api->following(@_);
 }
 
 sub api_friends_timeline {
     my $self = shift;
-    $self->api->following_timeline();
+    $self->api->following_timeline(@_);
 }
 
 sub api_public_timeline {
     my $self = shift;
-    $self->api->public_timeline();
+    $self->api->public_timeline(@_);
 }
 
 sub api_followers {
     my $self = shift;
-    $self->api->followers();
+    $self->api->followers(@_);
 }
 
 sub api_update {
@@ -151,7 +210,7 @@ sub api_update {
 
 sub api_replies {
     my $self = shift;
-    $self->api->replies();
+    $self->api->replies(@_);
 }
 
 sub api_send_message {
@@ -161,12 +220,12 @@ sub api_send_message {
 
 sub api_direct_messages_to {
     my $self = shift;
-    $self->api->direct_messages();
+    $self->api->direct_messages(@_);
 }
 
 sub api_direct_messages_from {
     my $self = shift;
-    $self->api->sent_direct_messages();
+    $self->api->sent_direct_messages(@_);
 }
 
 sub api_search {
@@ -218,6 +277,8 @@ Login to the service.
 The API methods are used to interface to with the Identica API.
 
 =over 4
+
+=item * api_reauthorize
 
 =item * api_user
 
