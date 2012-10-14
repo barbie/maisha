@@ -516,6 +516,45 @@ sub smry_say { "alias to 'update'" }
 
 
 #
+# Search
+#
+
+sub run_search {
+    my $self = shift;
+    my (undef,$text) = split(' ',$self->line(),2);
+    $text =~ s/^\s+//;
+    $text =~ s/\s+$//;
+
+    my $limit;
+    if($text =~ /^(\d+)\s+(.*)/) {
+        ($limit,$text) = ($1,$2);
+    }
+
+    unless($text) {
+        print "cannot search for an empty string\n\n";
+        return;
+    }
+
+    my $len = length $text;
+    if($len > 1000) {
+        print "search term is too long: $len/1000\n\n";
+        return;
+    }
+
+    $self->_run_results('search', $limit, $text);
+}
+sub smry_search { "search for messages" }
+sub help_search {
+    <<'END';
+
+Search for messages with a given search term. The given search term can
+contain up to 1000 characters.
+END
+}
+
+
+
+#
 # About
 #
 
@@ -688,7 +727,7 @@ sub _run_snapshot {
 
     my @res;
     if($max) {
-        for my $page (1..$max) {
+        for my $page (reverse(1 .. $max)) {
             my $ref = {page => $page};
             my $ret;
             eval { $ret = $self->_command($cmd,$ref) };
@@ -704,6 +743,31 @@ sub _run_snapshot {
     $self->_print_messages($limit,undef,\@res);
 }
 
+sub _run_results {
+    my ($self,$cmd,$count,$term) = @_;
+    my (@res,$limit,$max);
+
+    ($limit,$max) = $self->_get_limits_all($count)  if($count);
+
+    if($max) {
+        for my $page (reverse(1 .. $max)) {
+            my $ref = {page => $page};
+            my $ret;
+            eval { $ret = $self->_command($cmd,$term,$ref) };
+            push @res, @$ret    if($ret);
+        }
+    } else {
+        my $ret;
+        eval { $ret = $self->_command($cmd,$term) };
+#use Data::Dumper;
+#print Dumper($ret);
+        push @res, @{$ret->{results}}   if($ret);
+    }
+
+    return  unless(@res);
+    $self->_print_messages($limit,undef,\@res);
+}
+
 sub _run_timeline {
     my $self = shift;
     my $cmd  = shift;
@@ -711,7 +775,7 @@ sub _run_timeline {
     my ($limit,$max) = $self->_get_limits(@_);
 
     my @res;
-    for my $page (1..$max) {
+    for my $page (reverse(1 .. $max)) {
         my $ref = {id => $user, page => $page};
         my $ret;
         eval { $ret = $self->_command($cmd,$ref) };
@@ -804,17 +868,19 @@ sub _format_message {
     $network =~ s!^.*?\[([^\]]+)\].*!$1!s;
 
     my $timestamp = $mess->{created_at};
-    my (@dt) = $timestamp =~ /\w+\s+(\w+)\s+(\d+)\s+([\d:]+)\s+\S+\s+(\d+)/; # Sat Oct 13 19:01:19 +0000 2012
-    my $datetime = sprintf "%02d/%02d/%04d %s", $dt[1], $months{$dt[0]}, $dt[3], $dt[2];
-    my $date = sprintf "%02d/%02d/%04d", $dt[1], $months{$dt[0]}, $dt[3];
-    my $time = $dt[2];
+    my ($M,$D,$T,$Y) = $timestamp =~ /\w+\s+(\w+)\s+(\d+)\s+([\d:]+)\s+\S+\s+(\d+)/; # Sat Oct 13 19:01:19 +0000 2012
+    ($D,$M,$Y,$T) = $timestamp =~ /\w+,\s+(\d+)\s+(\w+)\s+(\d+)\s+([\d:]+)/ unless($M); # Sat, 13 Oct 2012 19:01:19 +0000
+
+    my $datetime = sprintf "%02d/%02d/%04d %s", $D, $months{$M}, $Y, $T;
+    my $date = sprintf "%02d/%02d/%04d", $D, $months{$M}, $Y;
+    my $time = $T;
 
     if($who) {
         $user = $mess->{$who}{screen_name};
         $text = $mess->{text};
     } else {
-        $user = $mess->{screen_name};
-        $text = $mess->{status}{text};
+        $user = $mess->{screen_name}  || $mess->{from_user};
+        $text = $mess->{status}{text} || $mess->{text};
         $text ||= '';
     }
 
@@ -932,7 +998,7 @@ as:
   %U - username or screen name
   %M - status message
   %T - timestamp (e.g. Sat Oct 13 19:29:17 +0000 2012)
-  %D - datetime (e.g. 13/10/2012 19:29:17)
+  %D - datetime  (e.g. 13/10/2012 19:29:17)
   %d - date only (e.g. 13/10/2012)
   %t - time only (e.g. 19:29:17)
   %N - network
@@ -1280,9 +1346,23 @@ Note that both 'send' and 'sm' are aliases to 'send_message'
 
 =back
 
+=head2 Search Methods
+
+These methods provide the handlers for the 'search' command.
+
+=over 4
+
+=item * run_search
+
+=item * help_search
+
+=item * smry_search
+
+=back
+
 =head2 About Methods
 
-The quit methods provide the handlers for the 'about' command.
+These methods provide the handlers for the 'about' command.
 
 =over 4
 

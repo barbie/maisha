@@ -3,7 +3,7 @@ package App::Maisha::Plugin::Twitter;
 use strict;
 use warnings;
 
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 
 #----------------------------------------------------------------------------
 # Library Modules
@@ -52,8 +52,7 @@ sub login {
 
     eval {
         $api = Net::Twitter->new(
-#            traits              => [qw/API::REST OAuth WrapError/],
-            traits              => [qw/API::REST OAuth/],
+            traits              => [qw/API::Search API::REST OAuth/],
             consumer_key        => $self->{consumer_key},
             consumer_secret     => $self->{consumer_secret},
             ssl                 => 1
@@ -123,9 +122,14 @@ sub _build_users {
     $self->users(\%users);
 }
 
-sub api_update {
+sub api_follow {
     my $self = shift;
-    $self->api->update(@_);
+    $self->api->create_friend(@_);
+}
+
+sub api_unfollow {
+    my $self = shift;
+    $self->api->destroy_friend(@_);
 }
 
 sub api_user {
@@ -161,6 +165,11 @@ sub api_followers {
     #$self->api->lookup_users( { user_id => $self->api->followers_ids() } );
 }
 
+sub api_update {
+    my $self = shift;
+    $self->api->update(@_);
+}
+
 sub api_replies {
     my $self = shift;
     $self->api->replies();
@@ -181,14 +190,9 @@ sub api_direct_messages_from {
     $self->api->sent_direct_messages();
 }
 
-sub api_follow {
+sub api_search {
     my $self = shift;
-    $self->api->create_friend(@_);
-}
-
-sub api_unfollow {
-    my $self = shift;
-    $self->api->destroy_friend(@_);
+    $self->api->search(@_);
 }
 
 1;
@@ -261,6 +265,8 @@ The API methods are used to interface to with the Twitter API.
 =item * api_direct_messages_to
 
 =item * api_direct_messages_from
+
+=item * api_search
 
 =back
 

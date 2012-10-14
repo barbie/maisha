@@ -3,7 +3,7 @@ package App::Maisha::Plugin::Identica;
 use strict;
 use warnings;
 
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 
 #----------------------------------------------------------------------------
 # Library Modules
@@ -43,7 +43,7 @@ sub login {
 
     eval {
         $api = Net::Twitter->new(
-            traits              => [qw/API::REST OAuth/],
+            traits              => [qw/API::Search API::REST OAuth/],
             consumer_key        => $self->{consumer_key},
             consumer_secret     => $self->{consumer_secret},
             identica            => 1,
@@ -114,11 +114,6 @@ sub _build_users {
     $self->users(\%users);
 }
 
-sub api_update {
-    my $self = shift;
-    $self->api->update(@_);
-}
-
 sub api_user {
     my $self = shift;
     $self->api->show_user(@_);
@@ -149,6 +144,11 @@ sub api_followers {
     $self->api->followers();
 }
 
+sub api_update {
+    my $self = shift;
+    $self->api->update(@_);
+}
+
 sub api_replies {
     my $self = shift;
     $self->api->replies();
@@ -167,6 +167,11 @@ sub api_direct_messages_to {
 sub api_direct_messages_from {
     my $self = shift;
     $self->api->sent_direct_messages();
+}
+
+sub api_search {
+    my $self = shift;
+    $self->api->search(@_);
 }
 
 1;
@@ -235,6 +240,8 @@ The API methods are used to interface to with the Identica API.
 =item * api_direct_messages_to
 
 =item * api_direct_messages_from
+
+=item * api_search
 
 =back
 

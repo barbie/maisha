@@ -189,7 +189,10 @@ as:
 
   %U - username or screen name
   %M - status message
-  %T - timestamp
+  %T - timestamp (e.g. Sat Oct 13 19:29:17 +0000 2012)
+  %D - datetime  (e.g. 13/10/2012 19:29:17)
+  %d - date only (e.g. 13/10/2012)
+  %t - time only (e.g. 19:29:17)
   %N - network
 
 =item * chars

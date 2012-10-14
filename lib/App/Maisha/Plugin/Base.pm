@@ -40,6 +40,8 @@ sub api_direct_messages_from    {}
 sub api_follow                  {}
 sub api_unfollow                {}
 
+sub api_search                  {}
+
 1;
 
 __END__
@@ -104,6 +106,8 @@ The API methods are used to interface to with the Twitter API.
 =item * api_direct_messages_to
 
 =item * api_direct_messages_from
+
+=item * api_search
 
 =back
 
