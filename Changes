@@ -1,6 +1,10 @@
 # Changes log for App-Maisha
 ============================
 
+0.17    2012-10-14
+        - POD updates ... never liked how POD forces double newlines for
+          bullet-point lists. (thanks to Mario Domgoergen).
+
 0.16    2012-10-14
         - spelling fix. (thanks to Florian Schlichting & Gregor Herrmann).
         - added =encoding to POD.
@@ -19,14 +23,15 @@
         - extend time/date formats.
         - added regular command protection.
         - updated Net::Twitter API commands.
-        - updated Net::twitter requirements.
+        - Now requires Net-Twitter-3.18003.
+        - updated tests.
 
 0.15    2010-09-26
         - added OAuth support to Identica access.
         - added better protection for failing commands.
         - removed password from example settings.
         - updated tests.
-        - Now requires Net-Twitter-3.13009
+        - Now requires Net-Twitter-3.13009.
 
 0.14    2010-09-11
         - documentation fix for INI format example (thanks to Alan Haggai Alavi).

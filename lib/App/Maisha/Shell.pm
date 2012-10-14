@@ -3,7 +3,7 @@ package App::Maisha::Shell;
 use strict;
 use warnings;
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 #----------------------------------------------------------------------------
 
@@ -988,7 +988,9 @@ configuration file.
 =item * connect
 
 =item * run_connect
+
 =item * help_connect
+
 =item * smry_connect
 
 =back
@@ -1000,7 +1002,9 @@ The disconnect methods provide the handlers to disconnect from a service.
 =over 4
 
 =item * run_disconnect
+
 =item * help_disconnect
+
 =item * smry_disconnect
 
 =back
@@ -1014,8 +1018,11 @@ used when 'update' or 'say' are used.
 =over 4
 
 =item * run_use
+
 =item * help_use
+
 =item * smry_use
+
 =item * comp_use
 
 =back
@@ -1027,7 +1034,9 @@ The followers methods provide the handlers for the 'followers' command.
 =over 4
 
 =item * run_followers
+
 =item * help_followers
+
 =item * smry_followers
 
 =back
@@ -1039,7 +1048,9 @@ The follow methods provide the handlers for the 'follow' command.
 =over 4
 
 =item * run_follow
+
 =item * help_follow
+
 =item * smry_follow
 
 =back
@@ -1051,7 +1062,9 @@ The unfollow methods provide the handlers for the 'unfollow' command.
 =over 4
 
 =item * run_unfollow
+
 =item * help_unfollow
+
 =item * smry_unfollow
 
 =back
@@ -1063,8 +1076,11 @@ The user methods provide the handlers display the profile of a named user.
 =over 4
 
 =item * run_user
+
 =item * help_user
+
 =item * smry_user
+
 =item * comp_user
 
 =back
@@ -1077,13 +1093,19 @@ command. Note that the 'ut' is an alias to 'user_timeline'.
 =over 4
 
 =item * run_user_timeline
+
 =item * help_user_timeline
+
 =item * smry_user_timeline
+
 =item * comp_user_timeline
 
 =item * run_ut
+
 =item * help_ut
+
 =item * smry_ut
+
 =item * comp_ut
 
 =back
@@ -1095,7 +1117,9 @@ The friends methods provide the handlers for the 'friends' command.
 =over 4
 
 =item * run_friends
+
 =item * help_friends
+
 =item * smry_friends
 
 =back
@@ -1108,11 +1132,15 @@ command. Note that the 'ft' is an alias to 'friends_timeline'.
 =over 4
 
 =item * run_friends_timeline
+
 =item * help_friends_timeline
+
 =item * smry_friends_timeline
 
 =item * run_ft
+
 =item * help_ft
+
 =item * smry_ft
 
 =back
@@ -1125,11 +1153,15 @@ command. Note that the 'pt' is an alias to 'public_timeline'.
 =over 4
 
 =item * run_public_timeline
+
 =item * help_public_timeline
+
 =item * smry_public_timeline
 
 =item * run_pt
+
 =item * help_pt
+
 =item * smry_pt
 
 =back
@@ -1142,13 +1174,19 @@ The update methods provide the handlers for the 'update' command. Note that
 =over 4
 
 =item * run_update
+
 =item * help_update
+
 =item * smry_update
+
 =item * comp_update
 
 =item * run_say
+
 =item * help_say
+
 =item * smry_say
+
 =item * comp_say
 
 =back
@@ -1161,11 +1199,15 @@ The reply methods provide the handlers for the 'replies' command. Note that
 =over 4
 
 =item * run_replies
+
 =item * help_replies
+
 =item * smry_replies
 
 =item * run_re
+
 =item * help_re
+
 =item * smry_re
 
 =back
@@ -1192,11 +1234,15 @@ default, or the system default (20) is used.
 =over 4
 
 =item * run_direct_messages
+
 =item * help_direct_messages
+
 =item * smry_direct_messages
 
 =item * run_dm
+
 =item * help_dm
+
 =item * smry_dm
 
 =back
@@ -1209,18 +1255,27 @@ Note that both 'send' and 'sm' are aliases to 'send_message'
 =over 4
 
 =item * run_send_message
+
 =item * help_send_message
+
 =item * smry_send_message
+
 =item * comp_send_message
 
 =item * run_send
+
 =item * help_send
+
 =item * smry_send
+
 =item * comp_send
 
 =item * run_sm
+
 =item * help_sm
+
 =item * smry_sm
+
 =item * comp_sm
 
 =back
@@ -1232,7 +1287,9 @@ The quit methods provide the handlers for the 'about' command.
 =over 4
 
 =item * run_about
+
 =item * help_about
+
 =item * smry_about
 
 =back
@@ -1244,7 +1301,9 @@ The quit methods provide the handlers for the 'version' command.
 =over 4
 
 =item * run_version
+
 =item * help_version
+
 =item * smry_version
 
 =back
@@ -1263,7 +1322,9 @@ The debug command has two optional parameters:
 =over 4
 
 =item * run_debug
+
 =item * help_debug
+
 =item * smry_debug
 
 =back
@@ -1276,11 +1337,15 @@ The quit methods provide the handlers for the 'quit' command. Note that both
 =over 4
 
 =item * run_quit
+
 =item * help_quit
+
 =item * smry_quit
 
 =item * run_q
+
 =item * help_q
+
 =item * smry_q
 
 =back
@@ -1292,7 +1357,9 @@ Used internally to interface with the underlying shell application.
 =over 4
 
 =item * postcmd
+
 =item * preloop
+
 =item * postloop
 
 =back
@@ -1311,7 +1378,9 @@ L<Term::Shell>
 =over 4
 
 =item * Main Site: L<http://maisha.grango.org>
+
 =item * Git Repo:  L<http://github.com/barbie/maisha/tree/master>
+
 =item * RT Queue:  L<RT: http://rt.cpan.org/Public/Dist/Display.html?Name=App-Maisha>
 
 =back

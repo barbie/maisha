@@ -3,7 +3,7 @@ package App::Maisha::Plugin::Base;
 use strict;
 use warnings;
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 #----------------------------------------------------------------------------
 # Public API
@@ -12,9 +12,9 @@ sub new {
     my $class = shift;
     my $self = {
         source      => 'maisha',
-        useragent   => 'Maisha/0.16 (Perl)',
+        useragent   => 'Maisha/0.17 (Perl)',
         clientname  => 'Maisha',
-        clientver   => '0.16',
+        clientver   => '0.17',
         clienturl   => 'http://maisha.grango.org'
     };
 
@@ -119,7 +119,9 @@ L<App::Maisha>
 =over 4
 
 =item * Main Site: L<http://maisha.grango.org>
+
 =item * Git Repo:  L<http://github.com/barbie/maisha/tree/master>
+
 =item * RT Queue:  L<RT: http://rt.cpan.org/Public/Dist/Display.html?Name=App-Maisha>
 
 =back

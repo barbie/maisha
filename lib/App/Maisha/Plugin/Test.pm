@@ -3,7 +3,7 @@ package App::Maisha::Plugin::Test;
 use strict;
 use warnings;
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 #----------------------------------------------------------------------------
 # Library Modules
@@ -81,7 +81,9 @@ L<App::Maisha>
 =over 4
 
 =item * Main Site: L<http://maisha.grango.org>
+
 =item * Git Repo:  L<http://github.com/barbie/maisha/tree/master>
+
 =item * RT Queue:  L<RT: http://rt.cpan.org/Public/Dist/Display.html?Name=App-Maisha>
 
 =back
