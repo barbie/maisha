@@ -690,12 +690,14 @@ sub _run_snapshot {
     if($max) {
         for my $page (1..$max) {
             my $ref = {page => $page};
-            my $ret = $self->_command($cmd,$ref);
-            push @res, @$ret;
+            my $ret;
+            eval { $ret = $self->_command($cmd,$ref) };
+            push @res, @$ret    if($ret);
         }
     } else {
-        my $ret = $self->_command($cmd);
-        push @res, @$ret;
+        my $ret;
+        eval { $ret = $self->_command($cmd) };
+        push @res, @$ret    if($ret);
     }
 
     return  unless(@res);
@@ -711,9 +713,9 @@ sub _run_timeline {
     my @res;
     for my $page (1..$max) {
         my $ref = {id => $user, page => $page};
-        my $ret = $self->_command($cmd,$ref);
-        next    unless($ret);
-        push @res, @$ret;
+        my $ret;
+        eval { $ret = $self->_command($cmd,$ref) };
+        push @res, @$ret    if($ret);
     }
 
     return  unless(@res);
