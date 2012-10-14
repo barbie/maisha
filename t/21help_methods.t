@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 use strict;
 
-use Test::More tests => 176;
+use Test::More tests => 182;
 use App::Maisha::Shell;
 
 ok( my $obj = App::Maisha::Shell->new(), "got object" );
@@ -40,6 +40,7 @@ for my $k ( qw/
 
     about
     version
+    debug
 / ){
   for my $m (qw(smry help)) {
     my $j = "${m}_$k";

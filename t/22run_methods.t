@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 use strict;
 
-use Test::More tests => (2 + 29);
+use Test::More tests => (2 + 30);
 use App::Maisha::Shell;
 
 ok( my $obj = App::Maisha::Shell->new(), "got object" );
@@ -32,6 +32,7 @@ for my $k ( qw/
 
     about
     version
+    debug
 
     help
     connect
