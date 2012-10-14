@@ -24,7 +24,7 @@ WriteMakefile(
         'File::Path'            => '0',
         'IO::File'              => '0',
         'Module::Pluggable'     => '2.7',
-        'Net::Twitter'          => '3.13009',
+        'Net::Twitter'          => '3.18003',
         'Storable'              => '0',
         'Term::Shell'           => '0',
         'Text::Wrap'            => '0',
