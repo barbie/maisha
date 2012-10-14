@@ -1218,6 +1218,10 @@ The user methods provide the handlers display the profile of a named user.
 The user timeline methods provide the handlers for the 'user_timeline'
 command. Note that the 'ut' is an alias to 'user_timeline'.
 
+The user_timeline command has one optional parameter:
+
+  maisha> ut [limit]
+
 =over 4
 
 =item * run_user_timeline
@@ -1257,6 +1261,10 @@ The friends methods provide the handlers for the 'friends' command.
 The friends timeline methods provide the handlers for the 'friends_timeline'
 command. Note that the 'ft' is an alias to 'friends_timeline'.
 
+The friends_timeline command has one optional parameter:
+
+  maisha> ft [limit]
+
 =over 4
 
 =item * run_friends_timeline
@@ -1277,6 +1285,10 @@ command. Note that the 'ft' is an alias to 'friends_timeline'.
 
 The public timeline methods provide the handlers for the 'public_timeline'
 command. Note that the 'pt' is an alias to 'public_timeline'.
+
+The public_timeline command has one optional parameter:
+
+  maisha> pt [limit]
 
 =over 4
 
@@ -1324,6 +1336,10 @@ The update methods provide the handlers for the 'update' command. Note that
 The reply methods provide the handlers for the 'replies' command. Note that
 're' is an aliases for 'replies'
 
+The replies command has one optional parameter:
+
+  maisha> re [limit]
+
 =over 4
 
 =item * run_replies
@@ -1345,7 +1361,7 @@ The reply methods provide the handlers for the 'replies' command. Note that
 The direct message methods provide the handlers for the 'direct_message'
 command. Note that 'dm' is an aliases for 'direct_message'.
 
-The direct_message command has to optional parameters:
+The direct_message command has two optional parameters:
 
   maisha> dm [from|to] [limit]
 
@@ -1412,6 +1428,18 @@ Note that both 'send' and 'sm' are aliases to 'send_message'
 
 These methods provide the handlers for the 'search' command.
 
+The search command has one optional, and one mandatory parameter:
+
+  maisha> search [limit] term [term ...]
+
+  maisha> search term
+  maisha> search 10 term
+  maisha> search a really long search term
+  maisha> search 20 a really long search term
+
+If the first parameter is a number, this will be treated as the limit value,
+used to limit the number of messages displayed.
+
 =over 4
 
 =item * run_search
@@ -1456,7 +1484,7 @@ The debug methods provide more verbose error mesages if commands fail.
 
 The debug command has two optional parameters:
 
-  maisha> debug [on|off]
+  maisha> debug on|off
 
   maisha> debug on
   maisha> debug off
