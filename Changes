@@ -1,6 +1,9 @@
 # Changes log for App-Maisha
 ============================
 
+0.18    2012-10-14
+        - set permissions on secret files (thanks to Colin Newell).
+
 0.17    2012-10-14
         - POD updates ... never liked how POD forces double newlines for
           bullet-point lists. (thanks to Mario Domgoergen).

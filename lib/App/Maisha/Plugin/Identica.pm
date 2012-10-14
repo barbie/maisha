@@ -80,6 +80,7 @@ sub login {
 
                 # save the access tokens
                 store $access_tokens, $datafile;
+                chmod 0640, $datafile;  # make sure it has reasonable permissions
             }
         };
 
