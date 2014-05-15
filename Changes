@@ -1,5 +1,7 @@
-# Changes log for App-Maisha
-============================
+Changes log for App-Maisha
+==========================
+
+        - added LICENSE file.
 
 0.18    2012-10-14
         - set permissions on secret files (thanks to Colin Newell).

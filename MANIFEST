@@ -10,6 +10,7 @@ lib/App/Maisha/Plugin/Identica.pm
 lib/App/Maisha/Plugin/Test.pm
 lib/App/Maisha/Plugin/Twitter.pm
 lib/App/Maisha/Shell.pm
+LICENSE
 Makefile.PL
 MANIFEST
 META.json
