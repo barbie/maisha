@@ -54,10 +54,16 @@ provides:
   App::Maisha::Plugin::Twitter:
     file: lib/App/Maisha/Plugin/Twitter.pm
     version: 0.18
+
 no_index:
   directory:
     - t
     - examples
+
+resources:
+  license:    http://www.perlfoundation.org/artistic_license_2_0
+  bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=App-Maisha
+  repository: http://github.com/barbie/maisha
 
 meta-spec:
    version: 1.4
