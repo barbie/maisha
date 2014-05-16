@@ -1,6 +1,7 @@
 Changes log for App-Maisha
 ==========================
 
+0.19    2014-05-16
         - added LICENSE file.
         - fixed distribution name in META.
         - META resources update.
