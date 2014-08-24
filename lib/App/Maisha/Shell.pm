@@ -531,7 +531,7 @@ sub run_update {
 
     my $len = length $text;
     if($len < 140) {
-        my $tag = $self->tag_str;
+        my $tag = $self->tag_str || '';
         $text .= " " if ($text =~ /\S/);
         $text .= $tag   if(length "$text$tag" <= 140);
     } elsif($len > 140) {

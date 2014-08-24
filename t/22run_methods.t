@@ -43,7 +43,7 @@ BEGIN {
     /;
 }
 
-use Test::More tests => (3 + 2 * @commands);
+use Test::More tests => (4 + 2 * @commands);
 
 eval "use Test::Effects";
 my $te = $@ ? 0 : 1;
@@ -129,12 +129,21 @@ for my $k ( @commands ) {
 }
 
 SKIP: {
-    skip "Test::Effects required for run time effects", 1   unless($te);
+    skip "Test::Effects required for run time effects", 2   unless($te);
 
-    effects_ok { $obj->run_update('this is a message') }
+    $obj->cmd('update this is a message');
+    effects_ok { $obj->run_update() }
         {
             return => undef,
-            stdout => qr/cannot send an empty message/,
+            stdout => '',
         }
         => 'Test update with message response';
+
+    $obj->cmd('update 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890');
+    effects_ok { $obj->run_update() }
+        {
+            return => undef,
+            stdout => qr/message too long/,
+        }
+        => 'Test update with long message response';
 }
