@@ -403,6 +403,7 @@ sub run_direct_messages {
     my $num  = shift;
 
     my ($limit,$pages,$count) = $self->_get_limits($max{home_timeline},$num,$self->limit);
+    $pages ||= 1;
 
     my (@pages,@results,$max_id);
     for my $page (1 .. $pages) {
@@ -455,6 +456,12 @@ sub smry_dm { "alias to direct_messages" }
 
 sub run_send_message {
     my $self = shift;
+    
+    unless($self->line()) {
+        print "cannot send an empty message\n\n";
+        return;
+    }
+
     my (undef,$user,$mess) = split(/\s+/,$self->line(),3);
 
     $user =~ s/^\@//    if($user);
@@ -507,6 +514,12 @@ sub smry_send { "alias to send_message" }
 
 sub run_update {
     my $self = shift;
+    
+    unless($self->line()) {
+        print "cannot send an empty message\n\n";
+        return;
+    }
+
     my (undef,$text) = split(' ',$self->line(),2);
     $text =~ s/^\s+//;
     $text =~ s/\s+$//;
@@ -629,7 +642,7 @@ Displays the current version of maisha.
 END
 }
 sub run_version {
-    print "\nVersion: $VERSION";
+    print "\nVersion: $VERSION\n";
 }
 
 
@@ -815,6 +828,8 @@ sub _run_timeline {
     my ($self,$cmd,$max,$user,$num) = @_;
     my ($limit,$pages,$count) = $self->_get_limits($max,$num,$self->limit);
 
+    $pages ||= 1;
+
     my (@pages,@results,$max_id);
     for my $page (1 .. $pages) {
         my $ref = {};
@@ -894,7 +909,7 @@ sub _commands {
         }
     }
 
-    return;
+    return 1;
 }
 
 sub _print_messages {

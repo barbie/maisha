@@ -131,6 +131,11 @@ sub _build_users {
         if($f && @$f)   { for(@$f) { next unless($_); $users{$_->{screen_name}} = 1 } }
     };
 
+    if($@) {
+        warn "Error retrieving friends/followers from Twitter: $@\n";
+        return;
+    }
+
     $self->users(\%users);
 }
 
