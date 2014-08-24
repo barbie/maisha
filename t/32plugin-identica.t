@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 use strict;
 
-use Test::More tests => 29;
+use Test::More tests => 35;
 use App::Maisha::Plugin::Identica;
 
 my $nomock;
@@ -92,4 +92,29 @@ SKIP: {
         }
       }
     }
+}
+
+{
+    $mock->set_always('friends',   [{screen_name => 'neilb'},{screen_name => 'barbie'}]);
+    $mock->set_always('followers', [{screen_name => 'cpantesters'}]);
+
+    ok( my $obj = App::Maisha::Plugin::Identica->new(), "got object" );
+    isa_ok($obj,'App::Maisha::Plugin::Identica');
+
+    my $ret = $obj->login({ username => 'test', home => '.', test => 1 });
+    is($ret, 1, '.. login done');
+
+    my $users = $obj->users;
+    is($users,undef,'no users yet');
+
+    $obj->_build_users();
+
+    $users = $obj->users;
+    is_deeply($users, {'neilb' => 1,'barbie' => 1,'cpantesters' => 1});
+
+    my $results = {results => [{created_at => 'Sat Oct 13 19:01:19 +0000 2012', screen_name => 'barbie', text => 'barbie says hi'}]};
+    $mock->set_always('search', $results);
+
+    $ret = $obj->api_search('barbie');
+    is_deeply($ret,$results);
 }
