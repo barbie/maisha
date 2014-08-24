@@ -8,7 +8,7 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     AUTHOR              => 'Barbie <barbie@cpan.org>',
-    NAME                => 'App-Maisha',
+    NAME                => 'App::Maisha',
     VERSION_FROM        => 'lib/App/Maisha.pm',
     ABSTRACT            => 'A command line social micro-blog networking tool',
     NO_META             => 1,

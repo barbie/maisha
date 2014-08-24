@@ -2,6 +2,7 @@ Changes log for App-Maisha
 ==========================
 
         - fixed license fields in META.json to be lists.
+        - fixed distribution name in Makefile.PL.
 
 0.19    2014-05-16
         - added LICENSE file.
