@@ -6,7 +6,7 @@
         "Barbie (BARBIE) <barbie@cpan.org>"
     ],
 
-    "license": "artistic_2",
+    "license": [ "artistic_2" ],
     "dynamic_config" : 0,
     "release_status" : "stable",
     "meta-spec": {
@@ -89,7 +89,7 @@
     },
 
     "resources": {
-        "license": "http://www.perlfoundation.org/artistic_license_2_0",
+        "license": [ "http://www.perlfoundation.org/artistic_license_2_0" ],
         "bugtracker": { "web": "http://rt.cpan.org/Public/Dist/Display.html?Name=App-Maisha" },
         "repository": {
             "url": "git://github.com/barbie/maisha.git",
