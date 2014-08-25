@@ -30,6 +30,7 @@ recommends:
   Test::CPAN::Meta:         0
   Test::CPAN::Meta::JSON:   0
   Test::Distribution:       2.00
+  Test::Effects:            0
   Test::Pod:                1.00
   Test::Pod::Coverage:      0.08
 build_requires:
