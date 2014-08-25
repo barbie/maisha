@@ -2,7 +2,6 @@
 use strict;
 
 use App::Maisha::Shell;
-use Test::Effects;
 
 use vars qw(@commands);
 
@@ -43,12 +42,11 @@ BEGIN {
     /;
 }
 
-use Test::More tests => (4 + 2 * @commands);
+my $tests = (2 + 3 * @commands);
+use Test::More tests => (2 + 3 * @commands);
 
-eval "use Test::Effects";
-my $te = $@ ? 0 : 1;
-
-ok( my $obj = App::Maisha::Shell->new(), "got object" );
+my $obj;
+ok( $obj = App::Maisha::Shell->new(), "got object" );
 isa_ok($obj,'App::Maisha::Shell');
 $obj->networks('');
 
@@ -58,92 +56,22 @@ for my $k ( @commands ) {
         my $label = "[$j]";
         SKIP: {
             ok( $obj->can($j), "$label can" ) or skip "'$j' method missing", 1;
-            SKIP: {
-                skip "Test::Effects required for run time effects", 1   unless($te);
 
-                if($k =~ /^(exit|quit|q|connect|disconnect|use|help)$/) {
-                    ok(1);
-                    next;
-                }
 
-                if($k =~ /^(about)$/) {
-                    effects_ok { $obj->$j() }
-                        {
-                            return => 1,
-                            stdout => qr/Maisha/,
-                        }
-                    => "Test '$j' response";
-                    next;
-                }
+            if($k =~ /^(exit|quit|q|connect|disconnect|use|help)$/) {
+                ok(1);
+                ok(1);
+                next;
+            }
 
-                if($k =~ /^(version)$/) {
-                    effects_ok { $obj->$j() }
-                        {
-                            return => 1,
-                            stdout => qr/Version:/,
-                        }
-                    => "Test '$j' response";
-                    next;
-                }
+            my $ret = eval { $obj->$j() };
+            is( $@,  '', "no exception for '$j'" );
 
-                if($k =~ /^(update|send_message|say|send|sm)$/) {
-                    effects_ok { $obj->$j() }
-                        {
-                            return => undef,
-                            stdout => qr/cannot send an empty message/,
-                        }
-                    => "Test '$j' response";
-                    next;
-                }
-
-                if($k =~ /^(follow|unfollow|user|user_timeline|ut)$/) {
-                    effects_ok { $obj->$j() }
-                        {
-                            return => undef,
-                            stdout => qr/no user specified/,
-                        }
-                    => "Test '$j' response";
-                    next;
-                }
-
-                if($k =~ /^(debug)$/) {
-                    effects_ok { $obj->$j() }
-                        {
-                            return => 1,
-                            stdout => qr/Please use 'on' or 'off' with debug command/,
-                        }
-                    => "Test '$j' response";
-                    next;
-                }
-
-                effects_ok { $obj->$j() }
-                    {
-                        return => undef,
-                        stdout => '',
-                    }
-                    => "Test '$j' response";
-
+            if($k =~ /^(debug|about|version)$/) {
+               is( $ret, 1, "return value for '$j'" );
+            } else {
+               is( $ret, undef, "return value for '$j'" );
             }
         }
-    };
-}
-
-SKIP: {
-    skip "Test::Effects required for run time effects", 2   unless($te);
-
-    $obj->cmd('update this is a message');
-    effects_ok { $obj->run_update() }
-        {
-            return => undef,
-            stdout => '',
-        }
-        => 'Test update with message response';
-
-    $obj->cmd('update 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890');
-    effects_ok { $obj->run_update() }
-        {
-            return => undef,
-            stdout => qr/message too long/,
-        }
-        => 'Test update with long message response';
+    }
 }

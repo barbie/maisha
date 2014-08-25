@@ -6,6 +6,9 @@ Changes log for App-Maisha
         - extended test suite.
         - clean up method returns.
         - added current year to copyright notice for 'about' command.
+        - Test::Effects and Devel::Cover don't work together, so moving new
+          run_methods test script to /xt/ directory, and reverting original
+          script back to eval tests.
 
 0.19    2014-05-16
         - added LICENSE file.
