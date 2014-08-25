@@ -9,6 +9,7 @@ Changes log for App-Maisha
         - Test::Effects and Devel::Cover don't work together, so moving new
           run_methods test script to /xt/ directory, and reverting original
           script back to eval tests.
+        - added config tests and data.
 
 0.19    2014-05-16
         - added LICENSE file.
