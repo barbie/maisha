@@ -608,6 +608,8 @@ Provides a brief summary about maisha.
 END
 }
 sub run_about {
+    my @time = localtime(time);
+    $time[5] += 1900;
     print <<ABOUT;
 
 Maisha is a command line application that can interface with a number of online
@@ -621,8 +623,10 @@ particular online service, it seemed an appropriate choice of name. After all
 you are posting status updates about your life :)
 
 Maisha is written in Perl, and freely available as Open Source under the Perl
-Artistic license. Copyright (c) 2009 Barbie for Grango.org, the Open Source
-development outlet of Miss Barbell Productions. See http://maisha.grango.org.
+Artistic license. Copyright (c) 2009-$time[5] Barbie for Grango.org, the Open 
+Source development outlet of Miss Barbell Productions. 
+    
+See http://maisha.grango.org for further information.
 
 Version: $VERSION
 

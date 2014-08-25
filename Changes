@@ -5,6 +5,7 @@ Changes log for App-Maisha
         - fixed distribution name in Makefile.PL.
         - extended test suite.
         - clean up method returns.
+        - added current year to copyright notice for 'about' command.
 
 0.19    2014-05-16
         - added LICENSE file.
