@@ -1,6 +1,6 @@
 {
     "name": "App-Maisha",
-    "version": "0.19",
+    "version": "0.20",
     "abstract": "A command line social micro-blog networking tool",
     "author": [
         "Barbie (BARBIE) <barbie@cpan.org>"
@@ -13,7 +13,7 @@
         "version": "2",
         "url": "http://search.cpan.org/dist/CPAN-Meta/lib/CPAN/Meta/Spec.pm"
     },
-    "generated_by": "Hand 1.0",
+    "generated_by": "The Hand of Barbie 1.0",
     "keywords" : [
         "twitter",
         "identica",
@@ -62,27 +62,27 @@
     "provides": {
         "App::Maisha": {
             "file": "lib/App/Maisha.pm",
-            "version": "0.19"
+            "version": "0.20"
         },
         "App::Maisha::Shell": {
             "file": "lib/App/Maisha/Shell.pm",
-            "version": "0.19"
+            "version": "0.20"
         },
         "App::Maisha::Plugin::Base": {
             "file": "lib/App/Maisha/Plugin/Base.pm",
-            "version": "0.19"
+            "version": "0.20"
         },
         "App::Maisha::Plugin::Identica": {
             "file": "lib/App/Maisha/Plugin/Identica.pm",
-            "version": "0.19"
+            "version": "0.20"
         },
         "App::Maisha::Plugin::Test": {
             "file": "lib/App/Maisha/Plugin/Test.pm",
-            "version": "0.19"
+            "version": "0.20"
         },
         "App::Maisha::Plugin::Twitter": {
             "file": "lib/App/Maisha/Plugin/Twitter.pm",
-            "version": "0.19"
+            "version": "0.20"
         }
     },
     "no_index": {

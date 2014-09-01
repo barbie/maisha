@@ -3,7 +3,7 @@ package App::Maisha::Plugin::Identica;
 use strict;
 use warnings;
 
-our $VERSION = '0.19';
+our $VERSION = '0.20';
 
 #----------------------------------------------------------------------------
 # Library Modules
