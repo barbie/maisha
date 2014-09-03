@@ -1,6 +1,8 @@
 Changes log for App-Maisha
 ==========================
 
+        - added mock skips for plugin tests.
+
 0.20    2014-09-01
         - fixed license fields in META.json to be lists.
         - fixed distribution name in Makefile.PL.

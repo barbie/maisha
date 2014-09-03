@@ -94,7 +94,9 @@ SKIP: {
     }
 }
 
-{
+SKIP: {
+	skip "Test::MockObject required for plugin testing\n", 6    if($nomock);
+
     $mock->set_always('friends',   [{screen_name => 'neilb'},{screen_name => 'barbie'}]);
     $mock->set_always('followers', [{screen_name => 'cpantesters'}]);
 
