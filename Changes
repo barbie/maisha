@@ -1,6 +1,7 @@
 Changes log for App-Maisha
 ==========================
 
+0.21    2014-09-09
         - added mock skips for plugin tests.
         - added configuration skips if config loaders not installed.
 
