@@ -12,6 +12,9 @@ perl:
 os: linux
 dist: trusty
 
+env:
+  - AUTOMATED_TESTING=1
+
 before_install:
   cpanm -n Devel::Cover::Report::Coveralls
 script:
